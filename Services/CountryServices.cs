@@ -26,36 +26,36 @@ namespace Services
 
         public CountryResponce AddCountry(CountryAddRequst countryAddRequst)
         {
-
-            Country countryobj = new Country();
-            countryobj.CountryName = countryAddRequst.CountryName;
-            /* countryobj.Countyid = Guid.Parse("DE597AC1-EB7B-4642-A706-CA9E75D351FF");*//*Guid.NewGuid()*/
-            countryobj.Countyid = Guid.NewGuid();
-            //_countries = new List<Country>();
-            //_countries.Add(countryobj);
-
-
+            Country countryobj;
             try
             {
-                db_obj.Tbl_country.Add(countryobj);
-                int rows = db_obj.SaveChanges();
-                Console.WriteLine(rows);
 
+                 countryobj = new Country();
+                countryobj.CountryName = countryAddRequst.CountryName;
+                countryobj.Countyid = Guid.NewGuid();
+
+
+                db_obj.Tbl_country.Add(countryobj);
+
+                db_obj.SaveChanges();
+         
 
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.ToString());
-                throw;
+                //Console.WriteLine(ex.ToString());
+                throw ex;
             }
 
-            CountryResponce countryResponceobj = new CountryResponce();
+            CountryResponce CountryRESDTO= GetcountryById(countryobj.Countyid);
 
-            countryResponceobj.Countyid = countryobj.Countyid;
-            countryResponceobj.CountryName = countryobj.CountryName;
+            //CountryResponce countryResponceobj = new CountryResponce();
+
+            //countryResponceobj.Countyid = countryobj.Countyid;
+            //countryResponceobj.CountryName = countryobj.CountryName;
 
 
-            return countryResponceobj;
+            return CountryRESDTO;
 
 
         }
@@ -103,6 +103,7 @@ namespace Services
             List<Country> countries = db_obj.Tbl_country.ToList();
 
             List<CountryResponce> countryresponceobj = new List<CountryResponce>();
+
             foreach (Country data in countries)
             {
                 CountryResponce countryResponceobj = new CountryResponce();
@@ -141,7 +142,7 @@ namespace Services
 
         public CountryResponce GetcountryById(Guid Countyid)
         {
-            Country countries = db_obj.Tbl_country.Where(temp => temp.Countyid == Countyid).SingleOrDefault() ;
+            Country countries = db_obj.Tbl_country.Where(Akhila => Akhila.Countyid== Countyid).SingleOrDefault() ;
 
 
             CountryResponce obj = new CountryResponce { CountryName = countries.CountryName, Countyid = countries.Countyid };

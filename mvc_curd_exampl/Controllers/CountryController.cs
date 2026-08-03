@@ -14,12 +14,6 @@ namespace mvc_curd_exampl.Controllers
             this.Country = country;
         }
 
-
-
-
-
-
-        
         [HttpGet]
 
         [Route("/")]
