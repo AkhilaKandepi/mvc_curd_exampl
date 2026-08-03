@@ -1,0 +1,19 @@
+﻿@using ServiceContract.DTO;
+
+@model List<CountryResponce>
+<table border="1">
+@foreach(CountryResponce data in Model)
+{
+    <tr>
+    
+    <td>
+      @data.Countyid
+     </td>
+
+    
+    <td>@data.CountryName</td>
+     </tr>
+    }
+
+</table>
+

@@ -1,0 +1,22 @@
+﻿@model ServiceContract.DTO.CountryResponce
+
+<html>
+<head>
+    <title>Country Details</title>
+</head>
+<body>
+
+    <h2>Country Saved Successfully</h2>
+
+    <p>
+        <strong>Country ID:</strong> @Model.Countyid
+    </p>
+
+    <p>
+        <strong>Country Name:</strong> @Model.CountryName
+    </p>
+
+    <br />
+    <a asp-action="ADD" asp-controller="Country">Add Another Country</a>
+</body>
+</html>
