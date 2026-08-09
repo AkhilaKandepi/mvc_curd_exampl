@@ -2,6 +2,7 @@ using Entities.dbcontext;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.EntityFrameworkCore;
 using ServiceContract;
+using ServiceContract.Interface;
 using Services;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -11,6 +12,7 @@ var con = builder.Configuration.GetConnectionString("CON_SERVER");
 builder.Services.AddDbContext<CHILD_OF_DBCONTEXT>(s => s.UseSqlServer(con,A=>A.MigrationsAssembly("Entities")));
 
 builder.Services.AddScoped<ICountry, CountryServices>();
+builder.Services.AddScoped<IPerson, PersonServices>();
 
 
 
@@ -20,7 +22,7 @@ var app = builder.Build();
 app.UseRouting();
 app.MapControllerRoute(
    name: "default",
-    pattern: "{controller=Country}/{action=GetAllcountrydata}/{id?}");
+    pattern: "{controller=Person}/{action=Getallperson}/{id?}");
 
 
 app.Run();

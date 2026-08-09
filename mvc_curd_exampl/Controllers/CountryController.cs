@@ -16,7 +16,7 @@ namespace mvc_curd_exampl.Controllers
 
         [HttpGet]
 
-        [Route("/")]
+        //[Route("/")]
         public ViewResult ADD()
         {
             return View();
@@ -54,7 +54,7 @@ namespace mvc_curd_exampl.Controllers
         public object Getcountry(Guid Countyid)
         {
 
-          CountryResponce obj   =Country.GetcountryById(Countyid);
+          CountryResponce obj =Country.GetcountryById(Countyid);
 
             return obj;
 

@@ -1,0 +1,24 @@
+﻿@using ServiceContract.DTO;
+@model List<PersonResponce>
+<html>
+<body>
+    <table border="1">
+        @foreach (PersonResponce data in Model) 
+        {
+            <tr>
+                <td>@data.PersonId</td>
+                <td>@data.PersonName</td>
+                <td>@data.PersonEmail</td>
+                <td>@data.DateOfBirth</td>
+                <td>@data.Gender</td>
+                <td>@data.Country</td>
+                <td>@data.Address</td>
+                <td>@data.ReceiveNewsLetters</td>
+                
+            </tr>
+
+        }
+
+    </table>
+</body>
+</html>

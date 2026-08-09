@@ -1,0 +1,50 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model ServiceContract.DTO.PersonAddRequest
+
+
+ 
+<!DOCTYPE html>
+<html>
+<head>
+<title>Add Person</title>
+</head>
+<body>
+ 
+    <h1>Add Person</h1>
+ 
+    <form asp-controller="Person" asp-action="Add" method="post">
+ 
+        <label>Person Name</label><br />
+<input asp-for="PersonName" />
+<br /><br />
+ 
+        <label>Person Email</label><br />
+<input asp-for="PersonEmail" />
+<br /><br />
+ 
+        <label>Date of Birth</label><br />
+<input asp-for="DateOfBirth" type="date" />
+<br /><br />
+ 
+        <label>Gender</label><br />
+<input asp-for="Gender" />
+<br /><br />
+ 
+        <label>Country</label><br />
+<input asp-for="Country" />
+<br /><br />
+ 
+        <label>Address</label><br />
+<input asp-for="Address" />
+<br /><br />
+ 
+        <label>Receive News Letters</label>
+<input asp-for="ReceiveNewsLetters" />
+<br /><br />
+ 
+        <button type="submit">Submit</button>
+ 
+    </form>
+ 
+</body>
+</html>
