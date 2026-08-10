@@ -10,17 +10,33 @@ using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
-
+using Xunit.Abstractions;
+using Moq;
+using EntityFrameworkCoreMock;
+using Entities;
 namespace Xunit_testcases
 {
     public class persontestcase
     {
-        private  IPerson _personservice;
-
-        public persontestcase()
+        private readonly IPerson _personservice;
+        private readonly ITestOutputHelper _testOutputHelper;
+      
+        public persontestcase(ITestOutputHelper testOutputHelper)
         {
-            _personservice = new PersonServices(new CHILD_OF_DBCONTEXT(new DbContextOptionsBuilder<CHILD_OF_DBCONTEXT>().Options));
+            List<Person> personsInitialData = new List<Person>() { };
+            DbContextMock<CHILD_OF_DBCONTEXT> dbContextMock = new DbContextMock<CHILD_OF_DBCONTEXT>(
+    new DbContextOptionsBuilder<CHILD_OF_DBCONTEXT>().Options
+   );
 
+            CHILD_OF_DBCONTEXT dbContext = dbContextMock.Object;
+
+            dbContextMock.CreateDbSetMock(temp => temp.Tbl_person, personsInitialData);
+
+            _personservice = new PersonServices(dbContext);
+
+
+            //this._personservice = new PersonServices(new CHILD_OF_DBCONTEXT(new DbContextOptionsBuilder<CHILD_OF_DBCONTEXT>().Options));
+           this._testOutputHelper=testOutputHelper;
             // Create obj for dbcontext 
             // akhilav write
             //DbContextOptionsBuilder<CHILD_OF_DBCONTEXT> obj = new DbContextOptionsBuilder<CHILD_OF_DBCONTEXT>().op;
@@ -29,43 +45,45 @@ namespace Xunit_testcases
             //_personservice = personServices;
         }
 
-       
-        public void Addperson_null()
+
+        [Fact]
+        public async Task Addperson_null()
         {
             PersonAddRequest? personAddRequest = null;
-            Assert.Throws<ArgumentNullException>(() =>
+            await Assert.ThrowsAsync<ArgumentNullException>(async() =>
                {
-                   _personservice.Addperson(personAddRequest);
+                   await _personservice.Addperson(personAddRequest);
 
                });
 
         }
-       
-        public  void AddPerson_PersonNameIsNull()
+
+        [Fact]
+        public async Task AddPerson_PersonNameIsNull()
         {
             //Arrange
             PersonAddRequest? personAddRequest = new PersonAddRequest() { PersonName = null };
 
             //Act
-            Assert.Throws<ArgumentException>( () => 
+           await Assert.ThrowsAsync<ArgumentException>( async() =>
             {
-                 _personservice.Addperson(personAddRequest);
+               await _personservice.Addperson(personAddRequest);
             });
         }
 
         [Fact]
-        public void AddPerson_ProperPersonDetails()
+        public async Task AddPerson_ProperPersonDetails()
         {
             //Arrange
-            PersonAddRequest personAddRequest = new PersonAddRequest() { PersonName = "Person name...",
+            PersonAddRequest? personAddRequest = new PersonAddRequest() { PersonName = "SRINU",
                 PersonEmail = "person@example.com", Address = "sample address",
                 Country = "us", Gender = "Male", 
-                DateOfBirth = DateTime.Parse("2000-01-01"), ReceiveNewsLetters = true };
+                DateOfBirth = DateTime.Parse("2002-01-01"), ReceiveNewsLetters = true };
 
             //Act
-            PersonResponce person_response_from_add = _personservice.Addperson(personAddRequest);
+            PersonResponce? person_response_from_add =  await _personservice.Addperson(personAddRequest);
 
-            List<PersonResponce> persons_list = _personservice.GetAllPerson();
+            List<PersonResponce> persons_list = await _personservice.GetAllPerson();
 
             //Assert
             Assert.True(person_response_from_add.PersonId != Guid.Empty);
@@ -75,8 +93,8 @@ namespace Xunit_testcases
 
 
 
-      
-        public void GetAllPersons_AddFewPersons()
+        [Fact]
+        public async Task GetAllPersons_AddFewPersons()
 
         {
 
@@ -144,23 +162,11 @@ namespace Xunit_testcases
 
             // Store all person requests in a list
 
-            List<PersonAddRequest> person_requests = new List<PersonAddRequest>()
-
-    {
-
-        person_request_1,
-
-        person_request_2,
-
-        person_request_3
-
-    };
+            List<PersonAddRequest> person_requests = new List<PersonAddRequest>(){  person_request_1, person_request_2,  person_request_3 };
 
             // Store the responses returned by AddPerson()
 
-            List<PersonResponce> person_response_list_from_add =
-
-                new List<PersonResponce>();
+            List<PersonResponce> person_response_list_from_add =new List<PersonResponce>();
 
             // Add each person
 
@@ -168,9 +174,7 @@ namespace Xunit_testcases
 
             {
 
-                PersonResponce person_response =
-
-                    _personservice.Addperson(person_request);
+                PersonResponce person_response = await _personservice.Addperson(person_request);
 
                 person_response_list_from_add.Add(person_response);
 
@@ -180,9 +184,7 @@ namespace Xunit_testcases
 
             // Get all persons from the database
 
-            List<PersonResponce> persons_list_from_get =
-
-                _personservice.GetAllPerson();
+            List<PersonResponce> persons_list_from_get = await _personservice.GetAllPerson();
 
             // Assert
 
@@ -200,27 +202,27 @@ namespace Xunit_testcases
 
         }
 
-        
 
-        public void GetPersonById_NullPersonId()
 
-        {
+        //public void GetPersonById_NullPersonId()
 
-            // Arrange
+        //{
 
-            Guid? personId = null;
+        //    // Arrange
 
-            // Act & Assert
+        //    Guid? personId = null;
 
-            Assert.Throws<ArgumentNullException>(() =>
+        //    // Act & Assert
 
-            {
+        //    Assert.Throws<ArgumentNullException>(() =>
 
-                _personservice.GetPersonByPersonId(personId.Value);
+        //    {
 
-            });
+        //        _personservice.GetPersonByPersonId(personId.Value);
 
-        }
+        //    });
+
+        //}
 
 
 

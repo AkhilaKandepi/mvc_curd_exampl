@@ -8,12 +8,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Services
 {
     public class PersonServices :IPerson
     {
-        public CHILD_OF_DBCONTEXT db_tbl;
+        public  readonly CHILD_OF_DBCONTEXT db_tbl;
 
        
         public PersonServices(CHILD_OF_DBCONTEXT db)
@@ -24,7 +25,7 @@ namespace Services
         }
 
 
-        public PersonResponce Addperson(PersonAddRequest personAddRequest)
+        public async Task<PersonResponce> Addperson(PersonAddRequest personAddRequest)
 
         {
             if (personAddRequest == null)
@@ -61,7 +62,7 @@ namespace Services
 
             db_tbl.Tbl_person.Add(obj);
 
-            db_tbl.SaveChanges();
+           await db_tbl.SaveChangesAsync();
 
             PersonResponce personResponseObj = new PersonResponce();
 
@@ -88,9 +89,9 @@ namespace Services
         }
         
         
-        public List<PersonResponce> GetAllPerson()
+        public async Task<List<PersonResponce>> GetAllPerson()
         {
-            List<Person> listobj = db_tbl.Tbl_person.ToList();
+            List<Person> listobj = await db_tbl.Tbl_person.ToListAsync();
             List<PersonResponce> personResponcesobj= new List<PersonResponce>();
             foreach (Person data in listobj)
             {
@@ -108,7 +109,9 @@ namespace Services
 
 
             }
-          return personResponcesobj;
+
+          
+            return  personResponcesobj;
 
 
         }

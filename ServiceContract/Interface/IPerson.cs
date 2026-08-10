@@ -11,10 +11,10 @@ namespace ServiceContract.Interface
     public interface IPerson
     {
         //insert into person_tbl values();
-        PersonResponce Addperson(PersonAddRequest personAddRequest);
+        Task<PersonResponce> Addperson(PersonAddRequest personAddRequest);
 
-      ////Selector*from person
-        List<PersonResponce> GetAllPerson();
+        ////Selector*from person
+        Task<List<PersonResponce>> GetAllPerson();
 
         //  //update person set person_name="ram" where person_id=1;
         //PersonResponce UpdatePerson(PersonUpdateRequest personUpdateRequest);

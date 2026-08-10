@@ -14,13 +14,10 @@ namespace Entities.dbcontext
         {
 
         }
-        public DbSet<Country> Tbl_country { get; set; }
-        public DbSet<Person> Tbl_person { get; set; }
+        public  virtual DbSet<Country> Tbl_country { get; set; }
+        public virtual DbSet<Person> Tbl_person { get; set; }
 
-        protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            base.OnModelCreating(modelBuilder);
-        }
+     
     }
 }
 

@@ -23,18 +23,18 @@ namespace mvc_curd_exampl.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Add(PersonAddRequest personAddRequest)
+        public async Task<IActionResult> Add(PersonAddRequest personAddRequest)
         {
-            PersonResponce data = iperson.Addperson(personAddRequest);
+            PersonResponce data = await iperson.Addperson(personAddRequest);
 
             return View("display",data);
 
         }
 
         [HttpGet]
-        public IActionResult Getallperson()
+        public async Task<IActionResult> Getallperson()
         {
-            List<PersonResponce> obj = iperson.GetAllPerson();
+            List<PersonResponce> obj = await iperson.GetAllPerson();
             return View(obj);
         }
 
