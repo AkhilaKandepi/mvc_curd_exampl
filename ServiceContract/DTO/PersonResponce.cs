@@ -36,10 +36,10 @@ namespace ServiceContract.DTO
             return base.GetHashCode();
         }
 
-        public override string ToString()
-        {
-            return $"Person ID: {PersonId}, Person Name: {PersonName}, Email: {PersonEmail}, Date of Birth: {DateOfBirth?.ToString("dd MMM yyyy")}, Gender: {Gender}, Country: {Country}, Country: {Country}, Address: {Address}, Receive News Letters: {ReceiveNewsLetters}";
-        }
+        //public override string ToString()
+        //{
+        //    return $"Person ID: {PersonId}, Person Name: {PersonName}, Email: {PersonEmail}, Date of Birth: {DateOfBirth?.ToString("dd MMM yyyy")}, Gender: {Gender}, Country: {Country}, Country: {Country}, Address: {Address}, Receive News Letters: {ReceiveNewsLetters}";
+        //}
 
 
     }

@@ -1,7 +1,7 @@
 ﻿using ServiceContract.Interface;
 using ServiceContract.DTO;
 using Microsoft.AspNetCore.Mvc;
-
+using ServiceContract;
 namespace mvc_curd_exampl.Controllers
 {
     
@@ -34,6 +34,7 @@ namespace mvc_curd_exampl.Controllers
         [HttpGet]
         public async Task<IActionResult> Getallperson()
         {
+
             List<PersonResponce> obj = await iperson.GetAllPerson();
             return View(obj);
         }

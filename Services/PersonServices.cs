@@ -117,7 +117,7 @@ namespace Services
         }
 
 
-      public  PersonResponce GetPersonByPersonId(Guid PersonId)
+      public async Task<PersonResponce> GetPersonByPersonId(Guid PersonId)
         {
             // Check whether PersonId is null
             if (PersonId == null)
@@ -125,9 +125,7 @@ namespace Services
                 return null;
             }
             // Find the person from database
-            Person? person1 = db_tbl.Tbl_person
-                 .Where(p => p.PersonId == PersonId)
-                 .FirstOrDefault();
+            Person? person1 = await db_tbl.Tbl_person .Where(p => p.PersonId == PersonId).FirstOrDefaultAsync();
 
             // Check whether person exists
             if (person1 == null)
@@ -135,9 +133,9 @@ namespace Services
                 return null;
             }
 
-            Person obj =db_tbl.Tbl_person.Where(s=>s.PersonId==PersonId).SingleOrDefault();
+           // Person obj =db_tbl.Tbl_person.Where(s=>s.PersonId==PersonId).SingleOrDefault();
 
-            PersonResponce personobj= new PersonResponce {PersonName=obj.PersonName,PersonId=obj.PersonId};
+            PersonResponce personobj= new PersonResponce {PersonName= person1.PersonName,PersonId= person1.PersonId};
 
             return personobj;
 
