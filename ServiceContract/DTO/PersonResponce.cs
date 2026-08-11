@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace ServiceContract.DTO
 {
-    public class PersonResponce
+   public partial class PersonResponce 
     {
         public Guid PersonId { get; set; }
         public string? PersonName { get; set; }
@@ -23,6 +24,7 @@ namespace ServiceContract.DTO
 
         public override bool Equals(object? obj)
         {
+
             if (obj == null) return false;
 
             if (obj.GetType() != typeof(PersonResponce)) return false;
@@ -31,10 +33,20 @@ namespace ServiceContract.DTO
             return PersonId == person.PersonId && PersonName == person.PersonName && PersonEmail == person.PersonEmail && DateOfBirth == person.DateOfBirth && Gender == person.Gender && Country== person.Country && Address == person.Address && ReceiveNewsLetters == person.ReceiveNewsLetters;
         }
 
+
         public override int GetHashCode()
         {
             return base.GetHashCode();
         }
+
+
+        public void Raju()
+        { 
+        
+        }
+
+
+
 
         //public override string ToString()
         //{
@@ -42,5 +54,28 @@ namespace ServiceContract.DTO
         //}
 
 
+      
+
+
     }
+
+
+  public  partial class PersonResponce
+    {
+
+        public void Ramu()
+        { 
+        
+        
+        }
+
+    }
+
+
+
+
+
+
+
+
 }

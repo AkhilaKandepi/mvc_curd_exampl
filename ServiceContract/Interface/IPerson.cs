@@ -23,7 +23,7 @@ namespace ServiceContract.Interface
         //  bool DeletePerson(Guid PersonId);
 
         //  //select*from person_tbl where person_id=1
-        Task<PersonResponce> GetPersonByPersonId(Guid PersonId);
+       Task<PersonResponce> GetPersonByPersonId(Guid PersonId);
 
 
         //  //select*from person_tbl where person_name=%s%;

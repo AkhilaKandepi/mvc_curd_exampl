@@ -27,6 +27,10 @@ namespace mvc_curd_exampl.Controllers
         {
             PersonResponce data = await iperson.Addperson(personAddRequest);
 
+
+            PersonResponce personResponce = new PersonResponce();
+            personResponce.Rajani(10);
+
             return View("display",data);
 
         }
@@ -46,9 +50,9 @@ namespace mvc_curd_exampl.Controllers
         }
 
         [HttpPost]
-        public Object Getperson(Guid PersonId)
+        public async Task<PersonResponce> Getperson(Guid PersonId)
         {
-           PersonResponce obj = iperson.GetPersonByPersonId(PersonId);
+           PersonResponce obj = await iperson.GetPersonByPersonId(PersonId);
             return obj;
 
         }
