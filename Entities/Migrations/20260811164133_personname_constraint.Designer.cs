@@ -4,6 +4,7 @@ using Entities.dbcontext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Entities.Migrations
 {
     [DbContext(typeof(CHILD_OF_DBCONTEXT))]
-    partial class CHILD_OF_DBCONTEXTModelSnapshot : ModelSnapshot
+    [Migration("20260811164133_personname_constraint")]
+    partial class personname_constraint
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -78,7 +81,7 @@ namespace Entities.Migrations
 
                     b.ToTable("Tbl_person", t =>
                         {
-                            t.HasCheckConstraint("con_personname", "LEN([PersonName]) BETWEEN 2 AND 10");
+                            t.HasCheckConstraint("con_personname", "LEN([PersonName]) BETWEEN 0 AND 10");
                         });
                 });
 #pragma warning restore 612, 618

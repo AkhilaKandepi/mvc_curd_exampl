@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.SqlServer.Query.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -14,10 +15,19 @@ namespace Entities.dbcontext
         {
 
         }
-        public  virtual DbSet<Country> Tbl_country { get; set; }
+        public virtual DbSet<Country> Tbl_country { get; set; }
         public virtual DbSet<Person> Tbl_person { get; set; }
 
-     
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Person>().Property(temp => temp.BloodGroup).HasColumnName("bloodgroupname").HasColumnType("nvarchar(10)").HasDefaultValue("B+");
+            //modelBuilder.Entity<Person>().HasCheckConstraint("checkperson", "len([PersonName])<10");
+            modelBuilder.Entity<Person>().ToTable(t => t.HasCheckConstraint("con_personname", "LEN([PersonName]) BETWEEN 2 AND 10"));
+
+
+
+
+        }
     }
 }
 

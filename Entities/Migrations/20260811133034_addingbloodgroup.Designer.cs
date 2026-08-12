@@ -4,6 +4,7 @@ using Entities.dbcontext;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Entities.Migrations
 {
     [DbContext(typeof(CHILD_OF_DBCONTEXT))]
-    partial class CHILD_OF_DBCONTEXTModelSnapshot : ModelSnapshot
+    [Migration("20260811133034_addingbloodgroup")]
+    partial class addingbloodgroup
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -48,10 +51,7 @@ namespace Entities.Migrations
 
                     b.Property<string>("BloodGroup")
                         .IsRequired()
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(10)")
-                        .HasDefaultValue("B+")
-                        .HasColumnName("bloodgroupname");
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("Country")
                         .HasColumnType("nvarchar(max)");
@@ -76,10 +76,7 @@ namespace Entities.Migrations
 
                     b.HasKey("PersonId");
 
-                    b.ToTable("Tbl_person", t =>
-                        {
-                            t.HasCheckConstraint("con_personname", "LEN([PersonName]) BETWEEN 2 AND 10");
-                        });
+                    b.ToTable("Tbl_person");
                 });
 #pragma warning restore 612, 618
         }
