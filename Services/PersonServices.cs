@@ -60,7 +60,8 @@ namespace Services
 
             obj.CountryId = Guid.NewGuid();
 
-            db_tbl.Tbl_person.Add(obj);
+           // db_tbl.Tbl_person.Add(obj);
+
 
            await db_tbl.SaveChangesAsync();
 
@@ -91,7 +92,7 @@ namespace Services
         
         public async Task<List<PersonResponce>> GetAllPerson()
         {
-            List<Person> listobj = await db_tbl.Tbl_person.ToListAsync();
+            List<Person> listobj = await db_tbl.Getallperson();
             List<PersonResponce> personResponcesobj= new List<PersonResponce>();
             foreach (Person data in listobj)
             {

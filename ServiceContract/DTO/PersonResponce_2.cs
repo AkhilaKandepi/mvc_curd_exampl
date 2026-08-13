@@ -22,6 +22,7 @@ namespace ServiceContract.DTO
     {
         public static void Rajani(this PersonResponce  personResponce,int a)
         { 
+
         
         
         }

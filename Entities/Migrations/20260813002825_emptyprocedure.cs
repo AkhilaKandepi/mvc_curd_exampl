@@ -1,19 +1,16 @@
 ﻿using Microsoft.EntityFrameworkCore.Migrations;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 #nullable disable
 
 namespace Entities.Migrations
 {
     /// <inheritdoc />
-    public partial class storeprocedure : Migration
+    public partial class emptyprocedure : Migration
     {
-       
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            
- string data = "CREATE PROCEDURE GetAllPersons AS BEGIN SELECT* FROM Tbl_person END";
+            string data = "CREATE PROCEDURE GetAllPersons AS BEGIN SELECT* FROM Tbl_person END";
             migrationBuilder.Sql(data);
         }
 

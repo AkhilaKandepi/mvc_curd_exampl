@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.Data.SqlClient;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.SqlServer.Query.Internal;
 using System;
 using System.Collections.Generic;
@@ -27,6 +28,63 @@ namespace Entities.dbcontext
 
 
 
+        }
+
+        public int sp_InsertPerson(Person person)
+        {
+            SqlParameter person_obj = new SqlParameter("@PersonID", person.PersonId);
+            SqlParameter person_obj1 = new SqlParameter("@PersonName", person.PersonName);
+            SqlParameter person_obj2 = new SqlParameter("@Email", person.PersonEmail);
+            SqlParameter person_obj3 = new SqlParameter("@DateOfBirth", person.DateOfBirth);
+            SqlParameter person_obj4 = new SqlParameter("@Gender", person.Gender);
+            SqlParameter person_obj5 = new SqlParameter("@CountryID", person.CountryId);
+            SqlParameter person_obj6 = new SqlParameter("@Address", person.Address);
+
+            SqlParameter person_obj7 = new SqlParameter("@ReceiveNewsLetters",person.ReceiveNewsLetters);
+            SqlParameter person_obj8 = new SqlParameter("Country", person.Country);
+            SqlParameter person_obj9 = new SqlParameter(" @bloodgroupname", person.BloodGroup);
+
+
+
+            List<SqlParameter> ListofSqlParamaters = new List<SqlParameter>();
+            ListofSqlParamaters.Add(person_obj);
+            ListofSqlParamaters.Add(person_obj1);
+            ListofSqlParamaters.Add(person_obj2);
+            ListofSqlParamaters.Add(person_obj3);
+            ListofSqlParamaters.Add(person_obj4);
+            ListofSqlParamaters.Add(person_obj5);
+            ListofSqlParamaters.Add(person_obj6);
+            ListofSqlParamaters.Add(person_obj7);
+            ListofSqlParamaters.Add(person_obj8);
+            ListofSqlParamaters.Add(person_obj9);
+            return Database.ExecuteSqlRaw(
+               "EXEC [dbo].[InsertPerson] @PersonID, @PersonName, @Email, @DateOfBirth, @Gender, @CountryID, @country, @Address, @ReceiveNewsLetters", "@bloodgroupname",ListofSqlParamaters);
+        }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        public async Task<List<Person>> Getallperson()
+        {
+            List<Person> getall= await Tbl_person.FromSqlRaw("Execute GetAllPersons").ToListAsync();
+
+            return getall;
         }
     }
 }
