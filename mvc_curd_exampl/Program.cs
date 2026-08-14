@@ -4,6 +4,8 @@ using Microsoft.EntityFrameworkCore;
 using ServiceContract;
 using ServiceContract.Interface;
 using Services;
+using Rotativa.AspNetCore;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -23,11 +25,13 @@ builder.Services.AddDbContext<CHILD_OF_DBCONTEXT>(options =>
 
 
 var app = builder.Build();
+RotativaConfiguration.Setup("wwwroot", wkhtmltopdfRelativePath: "Rotativa");
+
 
 app.UseRouting();
 app.MapControllerRoute(
    name: "default",
-    pattern: "{controller=Person}/{action=Getallperson}/{id?}");
+    pattern: "{controller=Person}/{action=Add}/{id?}");
 
 
 app.Run();

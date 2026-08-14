@@ -18,6 +18,7 @@ namespace ServiceContract.DTO
 
         public string? Country { get; set; }
         public string? Address { get; set; }
+        public string BloodGroup { get; set; }
         public bool ReceiveNewsLetters { get; set; }
 
     }

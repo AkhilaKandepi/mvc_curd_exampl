@@ -1,7 +1,12 @@
-﻿using ServiceContract.Interface;
-using ServiceContract.DTO;
+﻿using Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.SqlServer.Server;
+using Rotativa.AspNetCore;
 using ServiceContract;
+using ServiceContract.DTO;
+using ServiceContract.Interface;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace mvc_curd_exampl.Controllers
 {
     
@@ -54,6 +59,27 @@ namespace mvc_curd_exampl.Controllers
         {
            PersonResponce obj = await iperson.GetPersonByPersonId(PersonId);
             return obj;
+
+        }
+
+        //public async Task<IActionResult> PersonPDF()
+        //{
+        //    List<PersonResponce> obj = await iperson.GetAllPerson();
+
+        //    return new ViewAsPdf("displayPDF", obj)
+        //    {
+        //        FileName = "PersonDetails.pdf"
+        //    };
+        //}
+
+        public async Task<IActionResult> personPDF()
+        {
+            List<PersonResponce> obj = await iperson.GetAllPerson();
+
+            ViewAsPdf pdfobj = new ViewAsPdf("displayinPDF",obj);
+            return pdfobj;
+
+
 
         }
     }

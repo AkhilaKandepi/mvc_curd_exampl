@@ -60,7 +60,12 @@ namespace Services
 
             obj.CountryId = Guid.NewGuid();
 
-           // db_tbl.Tbl_person.Add(obj);
+            obj.BloodGroup = personAddRequest.BloodGroup;
+
+            // db_tbl.Tbl_person.Add(obj);
+            db_tbl.sp_InsertPerson(obj);
+
+            
 
 
            await db_tbl.SaveChangesAsync();
@@ -82,6 +87,7 @@ namespace Services
             personResponseObj.Country = obj.Country;
 
             personResponseObj.Address = obj.Address;
+            personResponseObj.BloodGroup = obj.BloodGroup;
 
             personResponseObj.ReceiveNewsLetters = obj.ReceiveNewsLetters;
 
