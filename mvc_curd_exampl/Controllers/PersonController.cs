@@ -82,5 +82,15 @@ namespace mvc_curd_exampl.Controllers
 
 
         }
+
+        public  async Task<IActionResult> PersonCSV()
+        {
+            MemoryStream value= await iperson.GetpersonCSV();
+
+            return File(value, "application/octet-stream", "Person.CSV");
+
+           // throw new NotImplementedException();
+
+        }
     }
 }

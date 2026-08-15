@@ -9,6 +9,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
+using CsvHelper;
+using System.Globalization;
 
 namespace Services
 {
@@ -151,7 +153,25 @@ namespace Services
         }
 
         
+      public async Task<MemoryStream> GetpersonCSV()
+        {
+            //throw new NotImplementedException();
 
+            MemoryStream stream = new MemoryStream();
+            List<Person> liobj= await db_tbl.Getallperson();
+            List<Person> obj = await db_tbl.Tbl_person.ToListAsync();
+
+            StreamWriter streamobj = new StreamWriter(stream);
+
+            CsvWriter csvWriterObj =new CsvWriter(streamobj,CultureInfo.InvariantCulture,leaveOpen:true);
+            csvWriterObj.WriteHeader<PersonResponce>();
+            csvWriterObj.NextRecord();
+           await csvWriterObj.WriteRecordsAsync(obj);
+            stream.Position = 0;    
+
+            return stream;
+
+        }
 
     }
 }

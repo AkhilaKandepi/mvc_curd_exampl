@@ -33,7 +33,7 @@ namespace ServiceContract.Interface
         //  //select*from person_tbl where person_gender asc;
         //  List<PersonResponce> GetSortedPerson(List<PersonResponce> PersonResponce,string sortBy,SortOrderOptions sortOrderOptions);
 
-
+        Task<MemoryStream> GetpersonCSV();
 
     }
 }
