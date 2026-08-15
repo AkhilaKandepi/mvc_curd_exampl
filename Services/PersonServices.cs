@@ -214,6 +214,7 @@ namespace Services
         public async Task<MemoryStream> GetExcel()
         {
             MemoryStream stream = new MemoryStream();
+            ExcelPackage.License.SetNonCommercialOrganization("My Noncommercial organization");
             using (ExcelPackage excelPackage = new ExcelPackage())
             {
                ExcelWorksheet worksheetOBJ= excelPackage.Workbook.Worksheets.Add("PersonDATA");

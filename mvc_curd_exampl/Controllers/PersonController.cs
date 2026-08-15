@@ -101,7 +101,7 @@ namespace mvc_curd_exampl.Controllers
 
             MemoryStream data = await iperson.GetExcel();
 
-            return File(data, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Person.Excel");
+            return File(data, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Person.xlsx");
 
             // throw new NotImplementedException();
 
