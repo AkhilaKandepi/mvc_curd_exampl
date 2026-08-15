@@ -12,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using CsvHelper;
 using System.Globalization;
 using CsvHelper.Configuration;
+using OfficeOpenXml;
 
 namespace Services
 {
@@ -212,7 +213,22 @@ namespace Services
         public async Task<MemoryStream> GetExcel()
         {
             MemoryStream stream = new MemoryStream();
-           
+            using (ExcelPackage excelPackage = new ExcelPackage())
+            {
+               ExcelWorksheet worksheetOBJ= excelPackage.Workbook.Worksheets.Add("PersonDATA");
+                worksheetOBJ.Cells["A1"].Value = "PersonName";
+                worksheetOBJ.Cells["B1"].Value = "Gender";
+                List<Person> liobj = await db_tbl.Getallperson();
+                foreach (var data in liobj)
+                {
+                    worksheetOBJ.Cells["A2"].Value = data.PersonName;
+                    worksheetOBJ.Cells["B2"].Value = data.Gender;
+
+                }
+
+
+
+            }
 
             return stream;
         }
