@@ -11,6 +11,7 @@ using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
 using CsvHelper;
 using System.Globalization;
+using CsvHelper.Configuration;
 
 namespace Services
 {
@@ -172,6 +173,50 @@ namespace Services
             return stream;
 
         }
+
+        public async Task<MemoryStream> GetCSV()
+        {
+            //throw new NotImplementedException();
+
+            MemoryStream stream = new MemoryStream();
+            List<Person> liobj = await db_tbl.Getallperson();
+            List<Person> obj = await db_tbl.Tbl_person.ToListAsync();
+
+            StreamWriter streamobj = new StreamWriter(stream);
+
+            CsvConfiguration csvConfigurationobj = new CsvConfiguration(CultureInfo.InvariantCulture);
+
+
+            CsvWriter csvWriterObj = new CsvWriter(streamobj, csvConfigurationobj);
+            csvWriterObj.WriteField(nameof( PersonResponce.PersonName));
+
+            csvWriterObj.WriteField(nameof(PersonResponce.PersonEmail));
+            csvWriterObj.NextRecord();
+            //csvWriterObj.WriteHeader<PersonResponce>();
+
+            // await csvWriterObj.WriteRecordsAsync(obj);
+
+            foreach (Person val in obj)
+            {
+                csvWriterObj.WriteField($"{val.PersonName}");
+                csvWriterObj.WriteField($"{val.PersonEmail}");
+                csvWriterObj.NextRecord();
+                csvWriterObj.Flush();
+
+            }
+            stream.Position = 0;
+
+            return stream;
+
+        }
+        public async Task<MemoryStream> GetExcel()
+        {
+            MemoryStream stream = new MemoryStream();
+           
+
+            return stream;
+        }
+
 
     }
 }

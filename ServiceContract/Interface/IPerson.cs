@@ -35,5 +35,11 @@ namespace ServiceContract.Interface
 
         Task<MemoryStream> GetpersonCSV();
 
+        Task<MemoryStream> GetCSV();
+
+        Task<MemoryStream> GetExcel();
+
+
+
     }
 }

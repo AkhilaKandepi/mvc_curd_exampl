@@ -85,11 +85,25 @@ namespace mvc_curd_exampl.Controllers
 
         public  async Task<IActionResult> PersonCSV()
         {
-            MemoryStream value= await iperson.GetpersonCSV();
+            // MemoryStream value= await iperson.GetpersonCSV();
 
-            return File(value, "application/octet-stream", "Person.CSV");
+           MemoryStream data=  await iperson.GetCSV();
+
+            return File(data, "application/octet-stream", "Person.CSV");
 
            // throw new NotImplementedException();
+
+        }
+
+        public async Task<IActionResult> PersonExcel()
+        {
+            // MemoryStream value= await iperson.GetpersonCSV();
+
+            MemoryStream data = await iperson.GetExcel();
+
+            return File(data, "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet", "Person.Excel");
+
+            // throw new NotImplementedException();
 
         }
     }
