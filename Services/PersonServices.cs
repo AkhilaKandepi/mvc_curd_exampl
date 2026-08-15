@@ -13,6 +13,7 @@ using CsvHelper;
 using System.Globalization;
 using CsvHelper.Configuration;
 using OfficeOpenXml;
+using System.Runtime.Intrinsics.X86;
 
 namespace Services
 {
@@ -219,17 +220,18 @@ namespace Services
                 worksheetOBJ.Cells["A1"].Value = "PersonName";
                 worksheetOBJ.Cells["B1"].Value = "Gender";
                 List<Person> liobj = await db_tbl.Getallperson();
+                int row = 2;
                 foreach (var data in liobj)
                 {
-                    worksheetOBJ.Cells["A2"].Value = data.PersonName;
-                    worksheetOBJ.Cells["B2"].Value = data.Gender;
-
+                    worksheetOBJ.Cells[row,1].Value = data.PersonName;
+                    worksheetOBJ.Cells[row,2].Value = data.Gender;
+                    row++;
                 }
+                worksheetOBJ.Cells[$"A1:B{row}"].AutoFitColumns();
 
-
-
+                await excelPackage.SaveAsAsync(stream);
             }
-
+            stream.Position=0;
             return stream;
         }
 
