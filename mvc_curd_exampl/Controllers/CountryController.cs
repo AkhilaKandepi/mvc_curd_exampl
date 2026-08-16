@@ -62,6 +62,30 @@ namespace mvc_curd_exampl.Controllers
 
 
         }
+        
+        [HttpGet]
+        public IActionResult AddCountriesFromExcel()
+        {
+            return View();
+
+
+
+
+
+
+
+
+
+           
+        }
+        [HttpPost]
+        public IActionResult AddCountriesFromExcel(IFormFile EXCEL) 
+        {
+            Country.ExcelToDtabase(EXCEL);
+            return View("displayexcel");
+
+        }
+
 
 
 

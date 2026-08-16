@@ -1,6 +1,9 @@
 ﻿using Entities;
 using Entities.dbcontext;
+using Microsoft.AspNetCore.Http;
 using Microsoft.EntityFrameworkCore.Metadata.Conventions;
+using Microsoft.EntityFrameworkCore.ValueGeneration.Internal;
+using OfficeOpenXml;
 using ServiceContract;
 using ServiceContract.DTO;
 using ServiceContract.Interface;
@@ -149,5 +152,34 @@ namespace Services
             return obj;
 
         }
+
+        public  async Task<int> ExcelToDtabase(IFormFile Excelfile)
+        {
+            MemoryStream memorystreamobj= new MemoryStream();
+
+           await Excelfile.CopyToAsync(memorystreamobj);
+            ExcelPackage.License.SetNonCommercialOrganization("My Noncommercial organization");
+            using (ExcelPackage Excelobj = new ExcelPackage(memorystreamobj))
+            {
+                ExcelWorksheet worksheetObj=Excelobj.Workbook.Worksheets[1];
+               int RowsCount= worksheetObj.Dimension.Rows;
+
+                for (int i=1;i< RowsCount; i++)
+                {
+                    string? CellValue = Convert.ToString(worksheetObj.Cells[1, 1].Value);
+
+
+                }
+
+
+            }
+
+
+
+
+                return 1;
+
+        }
+
     }
 }
