@@ -25,6 +25,7 @@ namespace Services
             db_obj = db;
 
 
+        
         }
 
         public CountryResponce AddCountry(CountryAddRequst countryAddRequst)
@@ -33,7 +34,7 @@ namespace Services
             try
             {
 
-                 countryobj = new Country();
+                countryobj = new Country();
                 countryobj.CountryName = countryAddRequst.CountryName;
                 countryobj.Countyid = Guid.NewGuid();
 
@@ -41,7 +42,7 @@ namespace Services
                 db_obj.Tbl_country.Add(countryobj);
 
                 db_obj.SaveChanges();
-         
+
 
             }
             catch (Exception ex)
@@ -50,7 +51,7 @@ namespace Services
                 throw ex;
             }
 
-            CountryResponce CountryRESDTO= GetcountryById(countryobj.Countyid);
+            CountryResponce CountryRESDTO = GetcountryById(countryobj.Countyid);
 
             //CountryResponce countryResponceobj = new CountryResponce();
 
@@ -62,10 +63,10 @@ namespace Services
 
 
         }
-       
 
 
-        public  List<CountryResponce> Getallcountries()
+
+        public List<CountryResponce> Getallcountries()
         {
 
             //List<CountryResponce> countryResponces=new List<CountryResponce>();
@@ -112,16 +113,16 @@ namespace Services
                 CountryResponce countryResponceobj = new CountryResponce();
 
                 countryResponceobj.Countyid = data.Countyid;
-                countryResponceobj.CountryName=data.CountryName;
+                countryResponceobj.CountryName = data.CountryName;
 
-                countryresponceobj.Add(countryResponceobj); 
+                countryresponceobj.Add(countryResponceobj);
             }
-        
+
 
 
 
             return countryresponceobj;
-                  
+
 
 
             //List<CountryResponce> countryResponcesobj = new List<CountryResponce>();
@@ -145,7 +146,7 @@ namespace Services
 
         public CountryResponce GetcountryById(Guid Countyid)
         {
-            Country countries = db_obj.Tbl_country.Where(Akhila => Akhila.Countyid== Countyid).SingleOrDefault() ;
+            Country countries = db_obj.Tbl_country.Where(Akhila => Akhila.Countyid == Countyid).SingleOrDefault();
 
 
             CountryResponce obj = new CountryResponce { CountryName = countries.CountryName, Countyid = countries.Countyid };
@@ -153,33 +154,57 @@ namespace Services
 
         }
 
-        public  async Task<int> ExcelToDtabase(IFormFile Excelfile)
+        public async Task<int> ExcelToDtabase(IFormFile Excelfile)
         {
-            MemoryStream memorystreamobj= new MemoryStream();
 
-           await Excelfile.CopyToAsync(memorystreamobj);
-            ExcelPackage.License.SetNonCommercialOrganization("My Noncommercial organization");
-            using (ExcelPackage Excelobj = new ExcelPackage(memorystreamobj))
+            int InsertRecordsCount = 0;
+            try
             {
-                ExcelWorksheet worksheetObj=Excelobj.Workbook.Worksheets[1];
-               int RowsCount= worksheetObj.Dimension.Rows;
 
-                for (int i=1;i< RowsCount; i++)
+               ExcelPackage.License.SetNonCommercialOrganization("My Noncommercial organization");
+                MemoryStream memorystreamobj = new MemoryStream();
+
+                await Excelfile.CopyToAsync(memorystreamobj);
+                
+                using (ExcelPackage Excelobj = new ExcelPackage(memorystreamobj))
                 {
-                    string? CellValue = Convert.ToString(worksheetObj.Cells[1, 1].Value);
+                    ExcelWorksheet worksheetObj = Excelobj.Workbook.Worksheets[0];
+                    int RowsCount = worksheetObj.Dimension.Rows;
+
+                    for (int i = 1; i <= RowsCount; i++)
+                    {
+                        string? CellValue = Convert.ToString(worksheetObj.Cells[i, 1].Value);
+
+                        if (CellValue != "" && CellValue != null)
+                        {
+                            Country country = new Country();
+
+                            country.CountryName = CellValue;
+
+                            db_obj.Tbl_country.Add(country);
+                           await db_obj.SaveChangesAsync();
+                            InsertRecordsCount++;
+                        }
+
+
+                    }
 
 
                 }
 
 
+
+
+
             }
+            catch (Exception ex)
+            {
+              
+              
 
-
-
-
-                return 1;
+            }
+            return InsertRecordsCount;
 
         }
-
     }
 }
