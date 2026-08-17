@@ -1,0 +1,24 @@
+﻿Person,Person.PersonId,Person.PersonName,Person.PersonEmail,Person.DateOfBirth,Person.Gender,Person.CountryId,Person.Country,Person.Address,Person.ReceiveNewsLetters
+Entity.Person,4be2955d-7926-417c-b791-036e7f258d98,savita,savita.22@gmail.com,"07-08-2026 21:26:00",female,8887d97a-cac3-4419-94d7-d78016dc674c,India,benglore,True
+Entity.Person,1dffa572-80a6-410b-b13b-0b29b141ef5a,savita,savita.22@gmail.com,"12-08-2026 12:01:00",female,fa31b73e-27fe-4dca-bcf4-f66b0b9a5241,India,benglore,True
+Entity.Person,119e4ddd-57e0-441d-aab0-110a79de5e7f,pam,Shekhar.22@gmail.com,"06-08-2026 09:49:00",female,25609566-2220-4899-93c7-94827aa29435,India,UP,True
+Entity.Person,2cdac0cf-d30e-4bcb-a6e4-18e8f63ed559,savita,savita.22@gmail.com,"14-08-2026 17:42:00",female,f6872e6c-5536-46c9-a38c-e574305f402e,India,benglore,True
+Entity.Person,3eaf3604-d662-4581-9456-1df8a5a31a99,savita,savita.22@gmail.com,"14-08-2026 17:42:00",female,2dc996fd-42fe-456b-b30a-43f54bfe7340,India,benglore,True
+Entity.Person,239f2c90-cb17-480d-a894-48277ed57380,savita,savita.22@gmail.com,"14-08-2026 17:42:00",female,8c8aa2c1-0f0d-48dd-af7b-b58afe8fa3a7,India,benglore,True
+Entity.Person,85472f01-a445-4936-8c99-5d792b2dc3fe,savita,savita.22@gmail.com,"21-08-2026 21:24:00",female,5b19d4ff-bfc5-4fde-90d8-4fee7faadb55,India,benglore,True
+Entity.Person,760d3848-3ce2-492b-904d-6a1d1d074129,"savita h",savita.22@gmail.com,"08-08-2026 22:22:00",female,d58c85d0-d0fa-4ad1-a332-6913b5feb6b2,India,benglore,True
+Entity.Person,526ec981-d9fc-422b-9383-9442e592061f,savita,savita.22@gmail.com,"10-08-2026 11:23:00",female,36b98122-f6b5-4d69-97aa-c712d0ad3e18,India,benglore,True
+Entity.Person,6d586e88-1ca8-4612-9aca-98ccf9e5bbde,savita,savita.22@gmail.com,"06-08-2026 17:45:00",female,82ab0bca-7b04-4239-8418-7d9f8f15dc34,India,benglore,True
+Entity.Person,8eb3d359-4571-449d-ab50-a0f2601912e6,Soumya,itssoumya280@gmail.com,"12-08-2026 22:31:00",female,0db393c2-fa7e-44f0-9cd2-004b0be1f0ae,India,benglore,True
+Entity.Person,6cbd0f8d-4c8a-4286-9a86-a8a730eba489,savita,savita.22@gmail.com,"08-08-2026 22:22:00",female,89c91c10-ad2c-474b-a062-adedae3dbf2e,India,benglore,True
+Entity.Person,d7624c63-7877-4cbe-8e53-aa3f28725f09,Soumya,itssoumya280@gmail.com,"10-08-2026 22:34:00",female,2a5159c3-4c4e-4fa4-9789-50fb8b18600b,India,benglore,True
+Entity.Person,3daada36-b0f4-48a4-ad01-ad82843537a4,savita,savita.22@gmail.com,"14-08-2026 17:42:00",female,d346ccd4-07f0-4cc7-842e-07faa8109286,India,benglore,True
+Entity.Person,6227ccca-d578-4059-94a5-b632ee20cac8,Soumya,itssoumya280@gmail.com,"18-08-2026 23:23:00",female,cf075b66-bcc8-437e-ad3d-a9508ec115ca,India,benglore,True
+Entity.Person,606c49d0-1226-4474-acb8-bc6f1893dbbf,"savita h",savita.22@gmail.com,"08-08-2026 22:22:00",female,fd4d9197-fd31-4a8c-9095-a565ad433b15,pakistan,benglore,True
+Entity.Person,40fe4db2-0967-43fc-a0db-bfcf6633229c,savita,savita.22@gmail.com,"14-08-2026 17:42:00",female,e4f0dd5c-c5ad-47f2-8993-237774c14f1c,India,benglore,True
+Entity.Person,f8d5177a-6999-4727-b921-c0d4dcb841b7,savita,savita.22@gmail.com,"10-08-2026 20:05:00",female,ee9d8b1e-94d0-4f08-a66c-bbbe3af13299,India,benglore,True
+Entity.Person,1c1521e5-239a-4a96-81c4-c2b000baa609,savita,savita.22@gmail.com,"07-08-2026 21:41:00",female,ef0d6855-1da9-48cc-8559-6126e4ac42cc,India,benglore,True
+Entity.Person,32516d2c-1fc8-483c-8a8e-c78efecca368,Soumya,itssoumya280@gmail.com,"12-08-2026 22:31:00",female,889c9d89-0b82-4e00-ade8-be8f94e55987,India,benglore,True
+Entity.Person,4f6e0c30-7ce8-4261-af9a-cadbed5b5c30,Ashwini,itssoumya280@gmail.com,"20-08-2026 18:20:00",female,14b9512b-0da2-4419-8e48-3365f144de2a,India,benglore,True
+Entity.Person,7290c256-2c3d-44ea-8b20-f589742df737,savita,savita.22@gmail.com,"08-08-2026 22:22:00",female,56e4aa7d-5edd-4b89-8c5a-7cf1d475c022,India,benglore,True
+Entity.Person,4291c9a9-8aff-42ba-9de2-faa2f99bf195,savita,savita.22@gmail.com,"15-08-2026 21:48:00",female,00439850-c77e-44cc-b86d-83f771f3a980,India,benglore,True
