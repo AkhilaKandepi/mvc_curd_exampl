@@ -67,16 +67,7 @@ namespace mvc_curd_exampl.Controllers
         public IActionResult AddCountriesFromExcel()
         {
             return View();
-
-
-
-
-
-
-
-
-
-           
+  
         }
         [HttpPost]
         public async Task<string> AddCountriesFromExcel(IFormFile EXCEL) 

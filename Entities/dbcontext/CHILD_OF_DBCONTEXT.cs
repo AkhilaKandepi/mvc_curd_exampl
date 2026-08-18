@@ -24,10 +24,6 @@ namespace Entities.dbcontext
             modelBuilder.Entity<Person>().Property(temp => temp.BloodGroup).HasColumnName("bloodgroupname").HasColumnType("nvarchar(10)").HasDefaultValue("B+");
             //modelBuilder.Entity<Person>().HasCheckConstraint("checkperson", "len([PersonName])<10");
             modelBuilder.Entity<Person>().ToTable(t => t.HasCheckConstraint("con_personname", "LEN([PersonName]) BETWEEN 2 AND 10"));
-
-
-
-
         }
 
         public int sp_InsertPerson(Person person)
@@ -60,25 +56,6 @@ namespace Entities.dbcontext
             return Database.ExecuteSqlRaw(
                "EXEC [dbo].[InsertPerson] @PersonID, @PersonName, @Email, @DateOfBirth, @Gender, @CountryID, @country, @Address, @ReceiveNewsLetters,@bloodgroupname",ListofSqlParamaters);
         }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
         public async Task<List<Person>> Getallperson()
         {

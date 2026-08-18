@@ -31,7 +31,12 @@
 <br /><br />
  
         <label>Country</label><br />
-<input asp-for="Country" />
+        <select name="Countyid" id="Countyid" asp-items="@ViewBag.ALLCountryData_viewbag">
+            <option value=""> -- Please select Country --</option>
+
+          
+    </select>
+
 <br /><br />
  
         <label>Address</label><br />
