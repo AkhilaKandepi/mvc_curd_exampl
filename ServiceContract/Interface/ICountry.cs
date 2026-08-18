@@ -6,6 +6,7 @@ using System.Linq;
 using ServiceContract.DTO;      
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace ServiceContract
 {
@@ -17,6 +18,7 @@ namespace ServiceContract
         CountryResponce GetcountryById(Guid Countyid);
 
 
+        Task<int> ExcelToDtabase(IFormFile Excelfile);
 
 
     }

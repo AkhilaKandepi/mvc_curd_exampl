@@ -220,16 +220,48 @@ namespace Services
                ExcelWorksheet worksheetOBJ= excelPackage.Workbook.Worksheets.Add("PersonDATA");
                 worksheetOBJ.Cells["A1"].Value = "PersonName";
                 worksheetOBJ.Cells["B1"].Value = "Gender";
+                worksheetOBJ.Cells["C1"].Value = nameof(PersonResponce.Country);
                 List<Person> liobj = await db_tbl.Getallperson();
                 int row = 2;
-                foreach (var data in liobj)
-                {
-                    worksheetOBJ.Cells[row,1].Value = data.PersonName;
-                    worksheetOBJ.Cells[row,2].Value = data.Gender;
-                    row++;
-                }
-                worksheetOBJ.Cells[$"A1:B{row}"].AutoFitColumns();
+                using (ExcelRange headerCells = worksheetOBJ.Cells["A1:C1"])
 
+                {
+
+                    headerCells.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.Solid;
+
+                    headerCells.Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.SeaGreen);
+                    headerCells.Style.Fill.PatternColor.SetColor(System.Drawing.Color.OrangeRed);
+
+
+                    headerCells.Style.Font.Bold = true;
+
+                }
+
+                foreach (var data in liobj)
+                    {
+                        worksheetOBJ.Cells[row, 1].Value = data.PersonName;
+                        worksheetOBJ.Cells[row, 2].Value = data.Gender;
+                        worksheetOBJ.Cells[row, 3].Value = data.Country;
+
+
+                    
+                    row++;
+                    }
+                worksheetOBJ.Cells[$"A1:B{row}"].AutoFitColumns();
+                using (ExcelRange DAtaCells = worksheetOBJ.Cells["A2:C11"])
+
+                {
+
+                    DAtaCells.Style.Fill.PatternType = OfficeOpenXml.Style.ExcelFillStyle.MediumGray;
+
+                    DAtaCells.Style.Fill.BackgroundColor.SetColor(System.Drawing.Color.BlueViolet);
+                    DAtaCells.Style.Fill.PatternColor.SetColor(System.Drawing.Color.OrangeRed);
+                    DAtaCells.Style.Font.Color.SetColor(System.Drawing.Color.Indigo);
+
+
+                    DAtaCells.Style.Font.Bold = false;
+
+                }
                 await excelPackage.SaveAsAsync(stream);
             }
             stream.Position=0;

@@ -10,8 +10,11 @@ namespace Entities
     public class Country
     {
         [Key]
+
         public Guid Countyid { get; set; }
         public string CountryName { get; set; }
+
+        public virtual ICollection<Person> Persones { get; set; }
 
         
     }

@@ -62,6 +62,31 @@ namespace mvc_curd_exampl.Controllers
 
 
         }
+        
+        [HttpGet]
+        public IActionResult AddCountriesFromExcel()
+        {
+            return View();
+
+
+
+
+
+
+
+
+
+           
+        }
+        [HttpPost]
+        public async Task<string> AddCountriesFromExcel(IFormFile EXCEL) 
+        {
+          int? count= await Country.ExcelToDtabase(EXCEL);
+
+            return "Recoredds Count is "+count.ToString();
+
+        }
+
 
 
 
