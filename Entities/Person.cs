@@ -17,6 +17,8 @@ namespace Entities
 
         public DateTime? DateOfBirth { get; set; }
         public string? Gender { get; set; }
+
+        [ForeignKey("Countyid")]
         public Guid? CountryId { get; set; }
 
         public string? Country { get; set; }
