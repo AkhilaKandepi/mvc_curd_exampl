@@ -78,17 +78,52 @@
                 </div>
             </div>
 
+
+
             <div class="form-field flex">
                 <div class="w-25">
+
+                    <label asp-for="ReceiveNewsLetters" class="form-label">Receive News Letters</label>
                 </div>
                 <div class="flex-1">
                     <input asp-for="ReceiveNewsLetters" value="true" />
-                    <label asp-for="ReceiveNewsLetters" class="form-label">Receive News Letters</label>
+
                     <span asp-validation-for="ReceiveNewsLetters" class="text-red"></span>
                 </div>
             </div>
 
+           
             <div class="form-field flex">
+             <div class="w-25">
+                <label asp-for="BloodGroup">BLOODGROUP</label>
+              </div>
+              <div  class="flex-1">
+                    <input asp-for=BloodGroup class="form-input" />
+              </div>
+
+            </div>
+
+            <div class="form-field flex">
+
+                <div class="w-25">
+                    <label>Gender</label>
+
+                </div>
+                  
+
+                <div class="flex-1" >
+                    <input asp-for="Gender" />
+
+
+                </div>
+  
+
+
+
+            </div>
+
+
+            @*   <div class="form-field flex">
                 <div class="w-25">
                 </div>
                 <div class="flex-1">
@@ -99,7 +134,7 @@
                     @if (ViewBag.Errors != null)
                     {
                         <div class="text-red ml">
-                            <ul>
+                     z       <ul>
                                 @foreach (string error in ViewBag.Errors)
                                 {
                                     <li class="ml">@error</li>
@@ -110,6 +145,7 @@
                 </div>
             </div>
 
+ *@
 
 
 
@@ -117,35 +153,6 @@
 
 
 
-
-
-            @* <label>Date of Birth</label><br />
-<input asp-for="DateOfBirth" type="date" />
-<br /><br /> *@
- 
-    @*     <label>Gender</label><br />
-<input asp-for="Gender" />
-<br /><br />
-  *@
-        @* <label>Country</label><br />
-        <select name="Countyid" id="Countyid" asp-items="@ViewBag.ALLCountryData_viewbag">
-            <option value=""> -- Please select Country --</option>
-
-          
-    </select>
-
-<br /><br />
- 
-        <label>Address</label><br />
-<input asp-for="Address" />
-<br /><br />
- 
-        <label>Receive News Letters</label>
-<input asp-for="ReceiveNewsLetters" />
-<br /><br /> *@
-<label>BLOODGROUP</label><br />
-<input asp-for=BloodGroup />
-<br />
  
         <button type="submit">Submit</button>
  
