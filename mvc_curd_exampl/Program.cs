@@ -31,7 +31,7 @@ app.UseStaticFiles();
 app.UseRouting();
 app.MapControllerRoute(
    name: "default",
-    pattern: "{controller=Person}/{action=Add}/{id?}");
+    pattern: "{controller=Person}/{action=displayinPDF}/{id?}");
 
 
 app.Run();
