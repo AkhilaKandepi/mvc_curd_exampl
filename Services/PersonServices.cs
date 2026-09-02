@@ -55,7 +55,7 @@ namespace Services
 
             obj.Gender = personAddRequest.Gender;
 
-            obj.Country = personAddRequest.Country;
+            //obj.Country = personAddRequest.Country;
 
             obj.Address = personAddRequest.Address;
 
@@ -63,7 +63,7 @@ namespace Services
 
             obj.PersonId = Guid.NewGuid();
 
-            obj.CountryId = Guid.NewGuid();
+            obj.CountryId = personAddRequest.CountryId;
 
             obj.BloodGroup = personAddRequest.BloodGroup;
 

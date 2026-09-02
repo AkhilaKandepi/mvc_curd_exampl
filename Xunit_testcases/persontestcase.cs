@@ -77,7 +77,8 @@ namespace Xunit_testcases
             //Arrange
             PersonAddRequest? personAddRequest = new PersonAddRequest() { PersonName = "SRINU",
                 PersonEmail = "person@example.com", Address = "sample address",
-                Country = "us", Gender = "Male", 
+                //Country = "us",
+                Gender = "Male", 
                 DateOfBirth = DateTime.Parse("2002-01-01"), ReceiveNewsLetters = true };
 
             //Act
@@ -112,7 +113,7 @@ namespace Xunit_testcases
 
                 Address = "Address of Smith",
 
-                Country = "USA",
+                //Country = "USA",
 
                 DateOfBirth = DateTime.Parse("2002-05-06"),
 
@@ -132,7 +133,7 @@ namespace Xunit_testcases
 
                 Address = "Address of Mary",
 
-                Country = "USA",
+                //Country = "USA",
 
                 DateOfBirth = DateTime.Parse("2000-02-02"),
 
@@ -152,7 +153,7 @@ namespace Xunit_testcases
 
                 Address = "Address of Rahman",
 
-                Country = "India",
+                //Country = "India",
 
                 DateOfBirth = DateTime.Parse("1999-03-03"),
 

@@ -36,8 +36,9 @@ namespace Entities.dbcontext
             SqlParameter person_obj5 = new SqlParameter("@CountryID", person.CountryId);
             SqlParameter person_obj6 = new SqlParameter("@Address", person.Address);
 
-            SqlParameter person_obj7 = new SqlParameter("@ReceiveNewsLetters",person.ReceiveNewsLetters);
-            SqlParameter person_obj8 = new SqlParameter("@Country", person.Country);
+           SqlParameter person_obj7 = new SqlParameter("@ReceiveNewsLetters",person.ReceiveNewsLetters);
+            //SqlParameter person_obj8 = new SqlParameter("@Country", person.Country);
+         
             SqlParameter person_obj9 = new SqlParameter("@bloodgroupname", person.BloodGroup);
 
 
@@ -51,10 +52,10 @@ namespace Entities.dbcontext
             ListofSqlParamaters.Add(person_obj5);
             ListofSqlParamaters.Add(person_obj6);
             ListofSqlParamaters.Add(person_obj7);
-            ListofSqlParamaters.Add(person_obj8);
+           // ListofSqlParamaters.Add(person_obj8);
             ListofSqlParamaters.Add(person_obj9);
             return Database.ExecuteSqlRaw(
-               "EXEC [dbo].[InsertPerson] @PersonID, @PersonName, @Email, @DateOfBirth, @Gender, @CountryID, @country, @Address, @ReceiveNewsLetters,@bloodgroupname",ListofSqlParamaters);
+               "EXEC [dbo].[InsertPerson] @PersonID, @PersonName, @Email, @DateOfBirth, @Gender, @CountryID, @Address,@ReceiveNewsLetters,@bloodgroupname", ListofSqlParamaters);
         }
 
         public async Task<List<Person>> Getallperson()

@@ -52,14 +52,31 @@
               </div>
          </div>
 
+            <div class="form-field flex">
 
+                <div class="w-25">
+                    <label>Gender</label>
+
+                </div>
+
+
+                <div class="flex-1">
+                    <input asp-for="Gender" class="form-input" />
+
+
+                </div>
+
+
+
+
+            </div>
          <div class="form-field flex">
              <div class="w-25">
-                 <label class="form-label" asp-for="Country">Country</label>
+                 <label class="form-label" asp-for="CountryId">Country</label>
 
              </div>
              <div class="flex-1">
-                    <select asp-for="Country" class="form-input" asp-items="@ViewBag.ALLCountryData_viewbag">
+                    <select asp-for="CountryId" class="form-input" asp-items="@ViewBag.ALLCountryData_viewbag">
                         <option value="">Please Select</option>
 
                  </select>
@@ -103,24 +120,19 @@
 
             </div>
 
+
             <div class="form-field flex">
 
                 <div class="w-25">
-                    <label>Gender</label>
 
                 </div>
-                  
 
-                <div class="flex-1" >
-                    <input asp-for="Gender" />
-
-
+                <div class ="flex-1">
+                    <button type="submit" class="button">Submit</button>
                 </div>
-  
-
-
 
             </div>
+           
 
 
             @*   <div class="form-field flex">
@@ -154,7 +166,7 @@
 
 
  
-        <button type="submit">Submit</button>
+       
  
     </form>
 
