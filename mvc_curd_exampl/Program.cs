@@ -27,7 +27,7 @@ builder.Services.AddDbContext<CHILD_OF_DBCONTEXT>(options =>
 var app = builder.Build();
 RotativaConfiguration.Setup("wwwroot", wkhtmltopdfRelativePath: "Rotativa");
 
-
+app.UseStaticFiles();
 app.UseRouting();
 app.MapControllerRoute(
    name: "default",
@@ -35,4 +35,3 @@ app.MapControllerRoute(
 
 
 app.Run();
-;

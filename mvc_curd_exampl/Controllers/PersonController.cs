@@ -1,5 +1,6 @@
 ﻿using Entities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.SqlServer.Server;
 using Rotativa.AspNetCore;
@@ -14,10 +15,12 @@ namespace mvc_curd_exampl.Controllers
     public class PersonController : Controller
     {
         private IPerson iperson;
+        private ICountry icountry;
 
-        public PersonController(IPerson ipersonobj)
+        public PersonController(IPerson ipersonobj, ICountry icountryObj)
         {
-        this.iperson = ipersonobj;
+            this.iperson = ipersonobj;
+            this.icountry = icountryObj;
 
         }
 
@@ -25,6 +28,37 @@ namespace mvc_curd_exampl.Controllers
         [HttpGet]
         public IActionResult Add()
         {
+            List<CountryResponce> ALLcountriesObj =  icountry.Getallcountries();
+
+            List<SelectListItem> selectListItems = new List<SelectListItem>();
+
+
+            foreach (var SingleObj in ALLcountriesObj)
+            {
+                SelectListItem Obj1 = new SelectListItem();
+
+                Obj1.Text= SingleObj.CountryName;
+                Obj1.Value= Convert.ToString( SingleObj.Countyid);
+
+                selectListItems.Add(Obj1);
+            }
+
+            //SelectListItem Obj1 = new SelectListItem();
+            //Obj1.Text = "Turkey";
+            //Obj1.Value = "E2D353CB-563C-4D3F-5776-08DEFD2EDDDE";
+
+
+            //SelectListItem Obj2 = new SelectListItem();
+            //Obj2.Text = "Turkmenistan";
+            //Obj2.Value = "74A2077B-68CB-454D-5777-08DEFD2EDDDE";
+
+            //selectListItems.Add(Obj1);
+            //selectListItems.Add(Obj2);
+
+            ViewBag.ALLCountryData_viewbag = selectListItems;
+           // ViewData["ALLCountryData_Viewdata"]= selectListItems;
+           // TempData["ALLCountryData_TempData"] = selectListItems;
+
             return View();
         }
         [HttpPost]

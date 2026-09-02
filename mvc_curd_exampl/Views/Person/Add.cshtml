@@ -7,17 +7,26 @@
 <html>
 <head>
 <title>Add Person</title>
+    <link href="~/StyleSheet.css" rel="stylesheet" />
 </head>
 <body>
  
     <h1>Add Person</h1>
- 
+    <div class="center-box">
     <form asp-controller="Person" asp-action="Add" method="post">
+      <div class="form-field flex">
+                <div class="w-25">
+                    <label asp-for="PersonName" class="form-label pt">Person Name</label>
+                </div>
+                <div class="flex-1">
+                    <input asp-for="PersonName" class="form-input" />
+                </div>
+          
+         </div>
  
-        <label>Person Name</label><br />
-<input asp-for="PersonName" />
-<br /><br />
- 
+
+
+
         <label>Person Email</label><br />
 <input asp-for="PersonEmail" />
 <br /><br />
@@ -31,7 +40,12 @@
 <br /><br />
  
         <label>Country</label><br />
-<input asp-for="Country" />
+        <select name="Countyid" id="Countyid" asp-items="@ViewBag.ALLCountryData_viewbag">
+            <option value=""> -- Please select Country --</option>
+
+          
+    </select>
+
 <br /><br />
  
         <label>Address</label><br />
@@ -48,6 +62,8 @@
         <button type="submit">Submit</button>
  
     </form>
+
+    </div>
  
 </body>
 </html>
