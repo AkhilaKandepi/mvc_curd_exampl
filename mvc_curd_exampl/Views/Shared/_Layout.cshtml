@@ -1,0 +1,32 @@
+﻿<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <link href="~/Stylesheet.css" rel="stylesheet" />
+</head>
+<body>
+
+    <div class="container">
+        <div class="navbar">
+            <div class="navbar-brand">
+                <img src="~/Mylogo.png" width="30px" asp-append-version="true" />
+            </div>
+
+            <ul>
+                <li>
+                    <a asp-controller="Person" asp-action="Getallperson">Persons</a>
+                    <a asp-controller="Country" asp-action="AddCountriesFromExcel">Upload Countries</a>
+                </li>
+            </ul>
+            </div>
+
+
+        <div class="page-content">
+            @RenderBody()
+        </div>
+    </div>
+  
+</body>
+</html>
