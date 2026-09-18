@@ -293,6 +293,42 @@ namespace Xunit_testcases
         }
 
 
+        [Fact]
+        public async Task GetFilteredPersons_EmptySearchText()
+        {
+
+            CountryAddRequst country_request_1 = new CountryAddRequst() { CountryName = "USA" };
+            CountryAddRequst country_request_2 = new CountryAddRequst() { CountryName = "India" };
+
+
+
+            CountryResponce country_response_1 =   _countryservice.AddCountry(country_request_1);
+            CountryResponce country_response_2 =  _countryservice.AddCountry(country_request_2);
+
+            PersonAddRequest person_request_1 = new PersonAddRequest() { PersonName = "Smith", PersonEmail= "smith@example.com", Gender ="Male", Address = "address of smith", CountryId= country_response_1.Countyid, DateOfBirth = DateTime.Parse("2002-05-06"), ReceiveNewsLetters = true };
+
+
+            PersonAddRequest person_request_2 = new PersonAddRequest() { PersonName = "Rani", PersonEmail = "Rani@example.com", Gender = "Female", Address = "address ofRani", CountryId = country_response_2.Countyid, DateOfBirth = DateTime.Parse("2004-06-07"), ReceiveNewsLetters = true };
+
+
+
+             PersonResponce Record1  = await  _personservice.Addperson(person_request_1);
+             PersonResponce Record2 = await _personservice.Addperson(person_request_2);
+
+            List<PersonResponce> TotalActualData= new List<PersonResponce> { Record1, Record2 };
+
+
+
+            List<PersonResponce>   Filterdata  = await _personservice.GetFilteredPersons("PersonName", "");
+
+
+            foreach (PersonResponce RecordswiseData in TotalActualData)
+            {
+                Assert.Contains(RecordswiseData, Filterdata);
+            }
+
+
+        }
 
 
 

@@ -103,7 +103,10 @@ namespace Services
         
         public async Task<List<PersonResponce>> GetAllPerson()
         {
-            List<Person> listobj = await db_tbl.Getallperson();
+            // List<Person> listobj = await db_tbl.Getallperson();
+
+            List<Person> listobj = await db_tbl.Tbl_person.ToListAsync();
+
             List<PersonResponce> personResponcesobj= new List<PersonResponce>();
             foreach (Person data in listobj)
             {
@@ -294,6 +297,34 @@ namespace Services
             await db_tbl.SaveChangesAsync();
 
             return true;
+        }
+
+
+        public async Task<List<PersonResponce>> GetFilteredPersons(string searchBy, string? searchString)
+        {
+
+            List<PersonResponce>  ActualData=await GetAllPerson();
+            List<PersonResponce> FilteredData = ActualData;
+            if (searchBy==null ||searchString==null)
+                return FilteredData;
+
+            switch (searchBy)
+            {
+                case "PersonName":
+                    FilteredData = ActualData.Where(temp =>(!string.IsNullOrEmpty(temp.PersonName) ?
+                        temp.PersonName.Contains(searchString, StringComparison.OrdinalIgnoreCase) : true)).ToList();
+                    break;
+                case "Gender":
+                    FilteredData = ActualData.Where(temp =>
+                    (!string.IsNullOrEmpty(temp.Gender) ?
+                    temp.Gender.Contains(searchString, StringComparison.OrdinalIgnoreCase) : true)).ToList();
+                    break;
+                default: FilteredData = ActualData; 
+                   break;
+
+            }
+
+            return FilteredData;
         }
 
 
