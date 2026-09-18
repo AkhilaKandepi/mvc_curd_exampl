@@ -67,8 +67,8 @@ namespace Services
 
             obj.BloodGroup = personAddRequest.BloodGroup;
 
-            // db_tbl.Tbl_person.Add(obj);
-            db_tbl.sp_InsertPerson(obj);
+             db_tbl.Tbl_person.Add(obj);
+           // db_tbl.sp_InsertPerson(obj);
 
             
 

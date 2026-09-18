@@ -276,11 +276,13 @@ namespace Xunit_testcases
             {
                 PersonName = "Jones",
                 Address = "address",
-                CountryId = country_response_from_add.Countyid, 
+                CountryId = country_response_from_add.Countyid,
                 DateOfBirth = Convert.ToDateTime("2010-01-01"),
-                PersonEmail = "jones@example.com", 
-                Gender = "Male", 
-                ReceiveNewsLetters = true 
+                PersonEmail = "jones@example.com",
+                Gender = "Male",
+                ReceiveNewsLetters = true,
+                BloodGroup = "B+"
+
             };
             PersonResponce person_response_from_add = await _personservice.Addperson(person_add_request);
 
