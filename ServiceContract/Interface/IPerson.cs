@@ -32,7 +32,7 @@ namespace ServiceContract.Interface
 
         //  //select*from person_tbl where person_gender asc;
         //  List<PersonResponce> GetSortedPerson(List<PersonResponce> PersonResponce,string sortBy,SortOrderOptions sortOrderOptions);
-
+        Task<bool> DeletePerson(Guid? personID);
         Task<MemoryStream> GetpersonCSV();
 
         Task<MemoryStream> GetCSV();

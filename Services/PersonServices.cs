@@ -269,6 +269,34 @@ namespace Services
         }
 
 
+        public async Task<bool> DeletePerson(Guid? personID)
+        {
+            if (personID == null)
+            {
+                // return false;
+                // throw new ArgumentNullException(nameof(personID));
+
+                ArgumentNullException obj = new ArgumentNullException(nameof(personID));
+
+                   throw obj;
+
+            }
+
+           Person? PersonData= await db_tbl.Tbl_person.FirstOrDefaultAsync(temp => temp.PersonId == personID);
+
+            if (PersonData == null)
+            {
+                return false;
+            }
+
+            db_tbl.Tbl_person.Remove(db_tbl.Tbl_person.First(data => data.PersonId == personID));
+
+            await db_tbl.SaveChangesAsync();
+
+            return true;
+        }
+
+
     }
 }
 

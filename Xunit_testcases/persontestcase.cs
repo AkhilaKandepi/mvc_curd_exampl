@@ -25,7 +25,7 @@ namespace Xunit_testcases
         {
             List<Person> personsInitialData = new List<Person>() { };
             DbContextMock<CHILD_OF_DBCONTEXT> dbContextMock = new DbContextMock<CHILD_OF_DBCONTEXT>(
-    new DbContextOptionsBuilder<CHILD_OF_DBCONTEXT>().Options
+          new DbContextOptionsBuilder<CHILD_OF_DBCONTEXT>().Options
    );
 
             CHILD_OF_DBCONTEXT dbContext = dbContextMock.Object;
@@ -203,6 +203,33 @@ namespace Xunit_testcases
 
         }
 
+
+
+        //If you supply an invalid PersonID, it should return false
+        [Fact]
+        public async Task DeletePerson_InvalidPersonID()
+        {
+            //Act
+            bool isDeleted = await _personservice.DeletePerson(Guid.NewGuid());
+
+            //Assert
+            Assert.False(isDeleted);
+        }
+
+        [Fact]
+        public async Task DeletePerson_NullDATA()
+        {
+            
+           Guid? personID  = null;
+
+            //Assert
+            await Assert.ThrowsAsync<ArgumentNullException>(async () =>
+            {
+                await _personservice.DeletePerson(personID);
+
+            });
+
+        }
 
 
         //public void GetPersonById_NullPersonId()
