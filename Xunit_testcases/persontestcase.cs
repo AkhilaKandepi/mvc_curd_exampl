@@ -1,5 +1,10 @@
-﻿using Entities.dbcontext;
+﻿using Entities;
+using Entities.dbcontext;
+using EntityFrameworkCoreMock;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Moq;
+using ServiceContract;
 using ServiceContract.DTO;
 using ServiceContract.Interface;
 using Services;
@@ -11,28 +16,34 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using Xunit.Abstractions;
-using Moq;
-using EntityFrameworkCoreMock;
-using Entities;
 namespace Xunit_testcases
 {
     public class persontestcase
     {
         private readonly IPerson _personservice;
+        private readonly ICountry _countryservice;
+
         private readonly ITestOutputHelper _testOutputHelper;
       
         public persontestcase(ITestOutputHelper testOutputHelper)
         {
             List<Person> personsInitialData = new List<Person>() { };
+            List<Country> countriesInitialData = new List<Country>() { };
+
+
             DbContextMock<CHILD_OF_DBCONTEXT> dbContextMock = new DbContextMock<CHILD_OF_DBCONTEXT>(
           new DbContextOptionsBuilder<CHILD_OF_DBCONTEXT>().Options
-   );
+         );
 
             CHILD_OF_DBCONTEXT dbContext = dbContextMock.Object;
 
             dbContextMock.CreateDbSetMock(temp => temp.Tbl_person, personsInitialData);
+            dbContextMock.CreateDbSetMock(temp => temp.Tbl_country, countriesInitialData);
 
-            _personservice = new PersonServices(dbContext);
+
+           _personservice = new PersonServices(dbContext);
+            _countryservice = new CountryServices(dbContext);
+
 
 
             //this._personservice = new PersonServices(new CHILD_OF_DBCONTEXT(new DbContextOptionsBuilder<CHILD_OF_DBCONTEXT>().Options));
@@ -251,6 +262,35 @@ namespace Xunit_testcases
         //    });
 
         //}
+
+        [Fact]
+       public async Task DeletePerson_ValidPersonID()
+       {
+            CountryAddRequst country_add_request = new CountryAddRequst() 
+            { 
+                CountryName = "USA"
+            };
+            CountryResponce country_response_from_add = _countryservice.AddCountry(country_add_request);
+
+            PersonAddRequest person_add_request = new PersonAddRequest()
+            {
+                PersonName = "Jones",
+                Address = "address",
+                CountryId = country_response_from_add.Countyid, 
+                DateOfBirth = Convert.ToDateTime("2010-01-01"),
+                PersonEmail = "jones@example.com", 
+                Gender = "Male", 
+                ReceiveNewsLetters = true 
+            };
+            PersonResponce person_response_from_add = await _personservice.Addperson(person_add_request);
+
+            //Act
+            bool isDeleted = await _personservice.DeletePerson(person_response_from_add.PersonId);
+            Assert.True(isDeleted);
+
+        }
+
+
 
 
 
