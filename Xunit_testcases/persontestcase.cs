@@ -305,15 +305,17 @@ namespace Xunit_testcases
             CountryResponce country_response_1 =   _countryservice.AddCountry(country_request_1);
             CountryResponce country_response_2 =  _countryservice.AddCountry(country_request_2);
 
-            PersonAddRequest person_request_1 = new PersonAddRequest() { PersonName = "Smith", PersonEmail= "smith@example.com", Gender ="Male", Address = "address of smith", CountryId= country_response_1.Countyid, DateOfBirth = DateTime.Parse("2002-05-06"), ReceiveNewsLetters = true };
+            PersonAddRequest person_request_1 = new PersonAddRequest() { PersonName = "Smith", PersonEmail= "smith@example.com", Gender ="Male", Address = "address of smith", CountryId= country_response_1.Countyid, DateOfBirth = DateTime.Parse("2002-05-06"), ReceiveNewsLetters = true,BloodGroup="B+" };
 
 
-            PersonAddRequest person_request_2 = new PersonAddRequest() { PersonName = "Rani", PersonEmail = "Rani@example.com", Gender = "Female", Address = "address ofRani", CountryId = country_response_2.Countyid, DateOfBirth = DateTime.Parse("2004-06-07"), ReceiveNewsLetters = true };
+            PersonAddRequest person_request_2 = new PersonAddRequest() { PersonName = "Rani", PersonEmail = "Rani@example.com", Gender = "Female", Address = "address ofRani", CountryId = country_response_2.Countyid, DateOfBirth = DateTime.Parse("2004-06-07"), ReceiveNewsLetters = true, BloodGroup = "AB+" };
 
 
 
              PersonResponce Record1  = await  _personservice.Addperson(person_request_1);
              PersonResponce Record2 = await _personservice.Addperson(person_request_2);
+
+
 
             List<PersonResponce> TotalActualData= new List<PersonResponce> { Record1, Record2 };
 
@@ -327,6 +329,47 @@ namespace Xunit_testcases
                 Assert.Contains(RecordswiseData, Filterdata);
             }
 
+
+        }
+
+        [Fact]
+        public async Task GetFilteredPersons_SearchByPersonName()
+        {
+
+            CountryAddRequst country_request_1 = new CountryAddRequst() { CountryName = "USA" };
+            CountryAddRequst country_request_2 = new CountryAddRequst() { CountryName = "India" };
+
+            CountryResponce country_response_1 =  _countryservice.AddCountry(country_request_1);
+            CountryResponce country_response_2 = _countryservice.AddCountry(country_request_2);
+
+            PersonAddRequest person_request_1 = new PersonAddRequest() { PersonName = "Smith", PersonEmail = "smith@example.com", Gender = "Male", Address = "address of smith", CountryId = country_response_1.Countyid, DateOfBirth = DateTime.Parse("2002-05-06"), ReceiveNewsLetters = true,BloodGroup="AB+" };
+
+            PersonAddRequest person_request_2 = new PersonAddRequest() { PersonName = "Mary", PersonEmail = "mary@example.com", Gender = "Female", Address = "address of mary", CountryId = country_response_2.Countyid, DateOfBirth = DateTime.Parse("2000-02-02"), ReceiveNewsLetters = false, BloodGroup = "O+" };
+
+            PersonAddRequest person_request_3 = new PersonAddRequest() { PersonName = "Rahman", PersonEmail = "rahman@example.com", Gender = "Male", Address = "address of rahman", CountryId = country_response_2.Countyid, DateOfBirth = DateTime.Parse("1999-03-03"), ReceiveNewsLetters = true, BloodGroup = "B+" };
+
+            List<PersonAddRequest> person_requests = new List<PersonAddRequest>() { person_request_1, person_request_2, person_request_3 };
+
+            List<PersonResponce> ActualMoqData = new List<PersonResponce>();
+
+            foreach (PersonAddRequest person_request in person_requests)
+            {
+                PersonResponce person_response = await   _personservice.Addperson(person_request);
+                ActualMoqData.Add(person_response);
+            }
+
+            List<PersonResponce> persons_list_from_search = await _personservice.GetFilteredPersons(nameof(Person.Gender), "Female");
+
+            foreach (PersonResponce person_response_from_add in ActualMoqData)
+            {
+                if (person_response_from_add.Gender != null)
+                {
+                    if (person_response_from_add.Gender.Contains("Female", StringComparison.OrdinalIgnoreCase))
+                    {
+                        Assert.Contains(person_response_from_add, persons_list_from_search);
+                    }
+                }
+            }
 
         }
 

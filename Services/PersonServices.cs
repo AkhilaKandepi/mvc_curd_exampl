@@ -305,7 +305,7 @@ namespace Services
 
             List<PersonResponce>  ActualData=await GetAllPerson();
             List<PersonResponce> FilteredData = ActualData;
-            if (searchBy==null ||searchString==null)
+            if ( string.IsNullOrEmpty(searchBy)||(searchString==null || searchString==""))
                 return FilteredData;
 
             switch (searchBy)
