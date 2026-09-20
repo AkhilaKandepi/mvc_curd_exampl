@@ -6,6 +6,7 @@ using Microsoft.Extensions.Configuration;
 using Moq;
 using ServiceContract;
 using ServiceContract.DTO;
+using ServiceContract.Enum;
 using ServiceContract.Interface;
 using Services;
 using System;
@@ -373,9 +374,48 @@ namespace Xunit_testcases
 
         }
 
+        [Fact]
+        public async Task GetSortedPersons()
+        {
+            CountryAddRequst country_request_1 = new CountryAddRequst() { CountryName = "USA" };
+            CountryAddRequst country_request_2 = new CountryAddRequst() { CountryName = "India" };
+
+            CountryResponce country_response_1 = _countryservice.AddCountry(country_request_1);
+            CountryResponce country_response_2 = _countryservice.AddCountry(country_request_2);
+
+            PersonAddRequest person_request_1 = new PersonAddRequest() { PersonName = "Smith", PersonEmail = "smith@example.com", Gender = "Male", Address = "address of smith", CountryId = country_response_1.Countyid, DateOfBirth = DateTime.Parse("2002-05-06"), ReceiveNewsLetters = true, BloodGroup = "AB+" };
+
+            PersonAddRequest person_request_2 = new PersonAddRequest() { PersonName = "Mary", PersonEmail = "mary@example.com", Gender = "Female", Address = "address of mary", CountryId = country_response_2.Countyid, DateOfBirth = DateTime.Parse("2000-02-02"), ReceiveNewsLetters = false, BloodGroup = "O+" };
+
+            PersonAddRequest person_request_3 = new PersonAddRequest() { PersonName = "Rahman", PersonEmail = "rahman@example.com", Gender = "Male", Address = "address of rahman", CountryId = country_response_2.Countyid, DateOfBirth = DateTime.Parse("1999-03-03"), ReceiveNewsLetters = true, BloodGroup = "B+" };
+
+            List<PersonAddRequest> person_requests = new List<PersonAddRequest>() { person_request_1, person_request_2, person_request_3 };
+
+            List<PersonResponce> ActualMoqData = new List<PersonResponce>();
+
+            foreach (PersonAddRequest person_request in person_requests)
+            {
+                PersonResponce person_response = await _personservice.Addperson(person_request);
+                ActualMoqData.Add(person_response);
+            }
+
+            List<PersonResponce> allPersons = await _personservice.GetAllPerson();
+
+            List<PersonResponce> SortedOutput = await _personservice.GetSortedPersons(allPersons, nameof(PersonResponce.PersonName), SortOrderOptions.ASC);
+
+            ActualMoqData = ActualMoqData.OrderBy(temp => temp.PersonName).ToList();
 
 
-    }
+            for (int i = 0; i < ActualMoqData.Count; i++)
+            {
+                Assert.Equal(ActualMoqData[i], SortedOutput[i]);
+            }
+
+
+
+        }
+
+        }
 
 }
 

@@ -14,6 +14,7 @@ using System.Globalization;
 using CsvHelper.Configuration;
 using OfficeOpenXml;
 using System.Runtime.Intrinsics.X86;
+using ServiceContract.Enum;
 
 namespace Services
 {
@@ -327,7 +328,25 @@ namespace Services
             return FilteredData;
         }
 
+        public async Task<List<PersonResponce>> GetSortedPersons(List<PersonResponce> allPersons, string sortBy, SortOrderOptions sortOrder)
+        {
+            if (string.IsNullOrEmpty(sortBy))
+                return allPersons;
 
+            List<PersonResponce> SortedData = (sortBy, sortOrder) switch
+            {
+                (nameof(PersonResponce.PersonName), SortOrderOptions.ASC) => allPersons.OrderBy(temp => temp.PersonName, StringComparer.OrdinalIgnoreCase).ToList(),
+
+                (nameof(PersonResponce.PersonName), SortOrderOptions.DESC) => allPersons.OrderByDescending(temp => temp.PersonName, StringComparer.OrdinalIgnoreCase).ToList(),
+
+
+                  _ => allPersons
+
+            };
+
+                 
+            return SortedData;
+        }
     }
 }
 
