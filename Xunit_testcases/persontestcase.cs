@@ -415,7 +415,108 @@ namespace Xunit_testcases
 
         }
 
+
+        [Fact]
+
+        public async Task UpdatePerson_NullUpdateOBJ()
+        { 
+            //Arrange
+           PersonUpdateRequest ? personAddRequest=null;
+
+
+            await Assert.ThrowsAsync<ArgumentNullException>(async () =>
+            {
+               await _personservice.UpdatePerson(personAddRequest);
+            }
+
+            );
+           
         }
+
+
+        [Fact]
+        public async Task UpdatePerson_NullUpdatePersonID()
+        {
+            //Arrange
+            PersonUpdateRequest? personAddRequest = new PersonUpdateRequest { Address="oguygdyc", BloodGroup="B+" };
+
+
+            await Assert.ThrowsAsync<ArgumentNullException>(async () =>
+            {
+                await _personservice.UpdatePerson(personAddRequest);
+            }
+
+            );
+
+        }
+
+        [Fact]
+        public async Task UpdatePerson_InvaildPersonID()
+        {
+            //Arrange
+            PersonUpdateRequest? personAddRequest = new PersonUpdateRequest { PersonId=Guid.NewGuid() };
+
+
+            await Assert.ThrowsAsync<InvalidOperationException>(async () =>
+            {
+                await _personservice.UpdatePerson(personAddRequest);
+            }
+
+            );
+
+        }
+
+        [Fact]
+        public async Task UpdatePerson_vaildPersondata()
+        {
+
+            CountryAddRequst country_request_1 = new CountryAddRequst() { CountryName = "USA" };
+            CountryAddRequst country_request_2 = new CountryAddRequst() { CountryName = "India" };
+
+
+
+            CountryResponce country_response_1 = _countryservice.AddCountry(country_request_1);
+            CountryResponce country_response_2 = _countryservice.AddCountry(country_request_2);
+
+            PersonAddRequest person_request_1 = new PersonAddRequest() { PersonName = "Smith", PersonEmail = "smith@example.com", Gender = "Male", Address = "address of smith", CountryId = country_response_1.Countyid, DateOfBirth = DateTime.Parse("2002-05-06"), ReceiveNewsLetters = true, BloodGroup = "B+" };
+
+
+            PersonAddRequest person_request_2 = new PersonAddRequest() { PersonName = "Rani", PersonEmail = "Rani@example.com", Gender = "Female", Address = "address ofRani", CountryId = country_response_2.Countyid, DateOfBirth = DateTime.Parse("2004-06-07"), ReceiveNewsLetters = true, BloodGroup = "AB+" };
+
+
+
+            PersonResponce Record1 = await _personservice.Addperson(person_request_1);
+            PersonResponce Record2 = await _personservice.Addperson(person_request_2);
+
+
+
+            List<PersonResponce> TotalActualData = new List<PersonResponce> { Record1, Record2 };
+
+
+
+
+
+
+
+            //Arrange
+            PersonUpdateRequest? personAddRequest = new PersonUpdateRequest { PersonId = Record1.PersonId,PersonName= "Smith J"};
+
+
+
+            PersonResponce Updateddatawithnewdata = await _personservice.UpdatePerson(personAddRequest);
+
+
+            PersonResponce ExistingData =await _personservice.GetPersonByPersonId(Updateddatawithnewdata.PersonId);
+
+
+
+            Assert.Equal(ExistingData, Updateddatawithnewdata);
+
+        }
+
+
+
+    }
 
 }
 

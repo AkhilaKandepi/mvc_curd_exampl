@@ -15,6 +15,7 @@ using CsvHelper.Configuration;
 using OfficeOpenXml;
 using System.Runtime.Intrinsics.X86;
 using ServiceContract.Enum;
+using Microsoft.IdentityModel.Tokens;
 
 namespace Services
 {
@@ -133,7 +134,7 @@ namespace Services
         }
 
 
-      public async Task<PersonResponce> GetPersonByPersonId(Guid PersonId)
+      public async Task<PersonResponce> GetPersonByPersonId(Guid? PersonId)
         {
             // Check whether PersonId is null
             if (PersonId == null)
@@ -141,7 +142,7 @@ namespace Services
                 return null;
             }
             // Find the person from database
-            Person? person1 = await db_tbl.Tbl_person .Where(p => p.PersonId == PersonId).FirstOrDefaultAsync();
+            Person? person1 = await db_tbl.Tbl_person.Where(p => p.PersonId == PersonId).FirstOrDefaultAsync();
 
             // Check whether person exists
             if (person1 == null)
@@ -151,7 +152,7 @@ namespace Services
 
            // Person obj =db_tbl.Tbl_person.Where(s=>s.PersonId==PersonId).SingleOrDefault();
 
-            PersonResponce personobj= new PersonResponce {PersonName= person1.PersonName,PersonId= person1.PersonId};
+            PersonResponce personobj= new PersonResponce {PersonName= person1.PersonName,PersonId= person1.PersonId,PersonEmail=person1.PersonEmail, Address=person1.Address, Gender=person1.Gender, BloodGroup=person1.BloodGroup, CountryId=person1.CountryId, DateOfBirth=person1.DateOfBirth, ReceiveNewsLetters=person1.ReceiveNewsLetters };
 
             return personobj;
 
@@ -350,15 +351,24 @@ namespace Services
 
         public async Task<PersonResponce> UpdatePerson(PersonUpdateRequest? personUpdateRequest)
         {
-
+            if (personUpdateRequest ==null)
+            {
+                throw new ArgumentNullException(nameof(personUpdateRequest));
+            }
             if (personUpdateRequest.PersonId ==null || personUpdateRequest.PersonId==Guid.Empty)
             {
                 throw new ArgumentNullException(nameof(personUpdateRequest.PersonId));
              
             }
 
-              Person?  exitedData  = db_tbl.Tbl_person.FirstOrDefault(temp=> temp.PersonId==personUpdateRequest.PersonId);
+           
 
+            Person?  exitedData  = db_tbl.Tbl_person.FirstOrDefault(temp=> temp.PersonId==personUpdateRequest.PersonId);
+
+            if (exitedData == null)
+            {
+                throw new InvalidOperationException(nameof(exitedData));
+            }
 
             if (exitedData.PersonId == null || exitedData.PersonId == Guid.Empty)
             {
@@ -366,15 +376,45 @@ namespace Services
                 throw new InvalidOperationException( nameof(exitedData.PersonId));
 
             }
+            if (!string.IsNullOrEmpty(personUpdateRequest.PersonEmail))
+            {
+                exitedData.PersonEmail = personUpdateRequest.PersonEmail;
+            }
 
-            exitedData.PersonEmail = personUpdateRequest.PersonEmail;
-            exitedData.BloodGroup = personUpdateRequest.BloodGroup;
-            exitedData.CountryId = personUpdateRequest.CountryId;
-            exitedData.Address = personUpdateRequest.Address;
-            exitedData.Gender = personUpdateRequest.Gender;
-            exitedData.DateOfBirth = personUpdateRequest.DateOfBirth;
-            exitedData.PersonName = personUpdateRequest.PersonName;
-            exitedData.ReceiveNewsLetters = personUpdateRequest.ReceiveNewsLetters;
+
+            if (!string.IsNullOrEmpty(personUpdateRequest.BloodGroup))
+            {
+                exitedData.BloodGroup = personUpdateRequest.BloodGroup;
+            }
+            if (personUpdateRequest.CountryId!=Guid.Empty & personUpdateRequest.CountryId !=null )
+            {
+                exitedData.CountryId = personUpdateRequest.CountryId;
+            }
+            if (!string.IsNullOrEmpty(personUpdateRequest.Address))
+            {
+                exitedData.Address = personUpdateRequest.Address;
+            }
+
+            if (!string.IsNullOrEmpty(personUpdateRequest.Gender))
+            {
+                exitedData.Gender = personUpdateRequest.Gender;
+            }
+
+            if (personUpdateRequest.DateOfBirth != null)
+            {
+                exitedData.DateOfBirth = personUpdateRequest.DateOfBirth;
+            }
+           
+            if (personUpdateRequest.ReceiveNewsLetters != null)
+            {
+                exitedData.ReceiveNewsLetters = personUpdateRequest.ReceiveNewsLetters;
+            }
+
+            if (personUpdateRequest.PersonName != null)
+            {
+                exitedData.PersonName = personUpdateRequest.PersonName;
+            }
+
 
             await db_tbl.SaveChangesAsync();
 
@@ -383,12 +423,12 @@ namespace Services
             obj.Gender = exitedData.Gender;
             obj.Address = exitedData.Address;
             obj.DateOfBirth= exitedData.DateOfBirth;
-            obj.PersonEmail = personUpdateRequest.PersonEmail;
-            obj.PersonName = personUpdateRequest.PersonName;
-            obj.PersonId= personUpdateRequest.PersonId;
-            obj.ReceiveNewsLetters= personUpdateRequest.ReceiveNewsLetters;
-            obj.BloodGroup= personUpdateRequest.BloodGroup;
-
+            obj.PersonEmail = exitedData.PersonEmail;
+            obj.PersonName = exitedData.PersonName;
+            obj.PersonId= exitedData.PersonId;
+            obj.ReceiveNewsLetters= exitedData.ReceiveNewsLetters;
+            obj.BloodGroup= exitedData.BloodGroup;
+            obj.CountryId= exitedData.CountryId;
             
             return obj;
         }
