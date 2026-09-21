@@ -347,6 +347,52 @@ namespace Services
                  
             return SortedData;
         }
+
+        public async Task<PersonResponce> UpdatePerson(PersonUpdateRequest? personUpdateRequest)
+        {
+
+            if (personUpdateRequest.PersonId ==null || personUpdateRequest.PersonId==Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(personUpdateRequest.PersonId));
+             
+            }
+
+              Person?  exitedData  = db_tbl.Tbl_person.FirstOrDefault(temp=> temp.PersonId==personUpdateRequest.PersonId);
+
+
+            if (exitedData.PersonId == null || exitedData.PersonId == Guid.Empty)
+            {
+
+                throw new InvalidOperationException( nameof(exitedData.PersonId));
+
+            }
+
+            exitedData.PersonEmail = personUpdateRequest.PersonEmail;
+            exitedData.BloodGroup = personUpdateRequest.BloodGroup;
+            exitedData.CountryId = personUpdateRequest.CountryId;
+            exitedData.Address = personUpdateRequest.Address;
+            exitedData.Gender = personUpdateRequest.Gender;
+            exitedData.DateOfBirth = personUpdateRequest.DateOfBirth;
+            exitedData.PersonName = personUpdateRequest.PersonName;
+            exitedData.ReceiveNewsLetters = personUpdateRequest.ReceiveNewsLetters;
+
+            await db_tbl.SaveChangesAsync();
+
+            PersonResponce obj = new PersonResponce();
+
+            obj.Gender = exitedData.Gender;
+            obj.Address = exitedData.Address;
+            obj.DateOfBirth= exitedData.DateOfBirth;
+            obj.PersonEmail = personUpdateRequest.PersonEmail;
+            obj.PersonName = personUpdateRequest.PersonName;
+            obj.PersonId= personUpdateRequest.PersonId;
+            obj.ReceiveNewsLetters= personUpdateRequest.ReceiveNewsLetters;
+            obj.BloodGroup= personUpdateRequest.BloodGroup;
+
+            
+            return obj;
+        }
+
     }
 }
 

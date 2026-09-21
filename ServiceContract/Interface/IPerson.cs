@@ -47,6 +47,8 @@ namespace ServiceContract.Interface
 
         Task<MemoryStream> GetExcel();
 
+        Task<PersonResponce> UpdatePerson(PersonUpdateRequest personUpdateRequest);
+
 
 
     }

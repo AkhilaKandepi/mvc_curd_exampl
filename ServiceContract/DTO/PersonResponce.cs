@@ -9,7 +9,7 @@ namespace ServiceContract.DTO
 {
    public partial class PersonResponce 
     {
-        public Guid PersonId { get; set; }
+        public Guid?  PersonId { get; set; }
         public string? PersonName { get; set; }
         public string? PersonEmail { get; set; }
 
@@ -19,7 +19,7 @@ namespace ServiceContract.DTO
 
         public string? Country { get; set; }
         public string? Address { get; set; }
-        public string BloodGroup { get; set; }
+        public string? BloodGroup { get; set; }
         public bool ReceiveNewsLetters { get; set; }
 
 
