@@ -10,6 +10,7 @@ using Rotativa.AspNetCore;
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllersWithViews();
+
 builder.Services.AddScoped<ICountry, CountryServices>();
 builder.Services.AddScoped<IPerson, PersonServices>();
 

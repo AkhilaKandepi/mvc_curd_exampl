@@ -1,11 +1,13 @@
 ﻿using Entities;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using Microsoft.SqlServer.Server;
 using Rotativa.AspNetCore;
 using ServiceContract;
 using ServiceContract.DTO;
+using ServiceContract.Enum;
 using ServiceContract.Interface;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace mvc_curd_exampl.Controllers
@@ -21,8 +23,30 @@ namespace mvc_curd_exampl.Controllers
         {
             this.iperson = ipersonobj;
             this.icountry = icountryObj;
+        }
+
+        [Route("/")]
+        public async Task<IActionResult> DisplayPersonData()
+        {
+
+            string searchBy = nameof(PersonResponce.PersonName);
+            string serachstring = "";
+
+            List<PersonResponce> Filterdata = await iperson.GetFilteredPersons(searchBy, serachstring);
+
+
+            string sortedby=nameof(PersonResponce.PersonName);
+            SortOrderOptions sortorder =  SortOrderOptions.ASC;
+
+            List<PersonResponce> Sorted_data = await iperson.GetSortedPersons(Filterdata, sortedby, sortorder);
+
+
+
+            return View(Sorted_data);
 
         }
+
+
 
 
         [HttpGet]

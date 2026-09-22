@@ -19,19 +19,17 @@ using Microsoft.IdentityModel.Tokens;
 
 namespace Services
 {
-    public class PersonServices :IPerson
+    public class PersonServices : IPerson
     {
-        public  readonly CHILD_OF_DBCONTEXT db_tbl;
+        public readonly CHILD_OF_DBCONTEXT db_tbl;
 
-       
+
         public PersonServices(CHILD_OF_DBCONTEXT db)
         {
 
             this.db_tbl = db;
 
         }
-
-
         public async Task<PersonResponce> Addperson(PersonAddRequest personAddRequest)
 
         {
@@ -40,7 +38,7 @@ namespace Services
                 throw new ArgumentNullException(nameof(personAddRequest) + "Your passing Null object DATA");
 
             }
-            if (personAddRequest.PersonName==null)
+            if (personAddRequest.PersonName == null)
             {
                 throw new ArgumentException();
 
@@ -69,13 +67,13 @@ namespace Services
 
             obj.BloodGroup = personAddRequest.BloodGroup;
 
-             db_tbl.Tbl_person.Add(obj);
-           // db_tbl.sp_InsertPerson(obj);
-
-            
+            db_tbl.Tbl_person.Add(obj);
+            // db_tbl.sp_InsertPerson(obj);
 
 
-           await db_tbl.SaveChangesAsync();
+
+
+            await db_tbl.SaveChangesAsync();
 
             PersonResponce personResponseObj = new PersonResponce();
 
@@ -101,40 +99,36 @@ namespace Services
             return personResponseObj;
 
         }
-        
-        
         public async Task<List<PersonResponce>> GetAllPerson()
         {
             // List<Person> listobj = await db_tbl.Getallperson();
 
             List<Person> listobj = await db_tbl.Tbl_person.ToListAsync();
 
-            List<PersonResponce> personResponcesobj= new List<PersonResponce>();
+            List<PersonResponce> personResponcesobj = new List<PersonResponce>();
             foreach (Person data in listobj)
             {
                 PersonResponce obj = new PersonResponce();
                 obj.PersonId = data.PersonId;
                 obj.PersonName = data.PersonName;
                 obj.PersonEmail = data.PersonEmail;
-                obj.DateOfBirth=data.DateOfBirth;
+                obj.DateOfBirth = data.DateOfBirth;
                 obj.Gender = data.Gender;
                 obj.CountryId = data.CountryId;
                 obj.Country = data.Country;
                 obj.Address = data.Address;
-                obj.ReceiveNewsLetters=data.ReceiveNewsLetters;
+                obj.ReceiveNewsLetters = data.ReceiveNewsLetters;
                 personResponcesobj.Add(obj);
 
 
             }
 
-          
-            return  personResponcesobj;
+
+            return personResponcesobj;
 
 
         }
-
-
-      public async Task<PersonResponce> GetPersonByPersonId(Guid? PersonId)
+        public async Task<PersonResponce> GetPersonByPersonId(Guid? PersonId)
         {
             // Check whether PersonId is null
             if (PersonId == null)
@@ -150,9 +144,9 @@ namespace Services
                 return null;
             }
 
-           // Person obj =db_tbl.Tbl_person.Where(s=>s.PersonId==PersonId).SingleOrDefault();
+            // Person obj =db_tbl.Tbl_person.Where(s=>s.PersonId==PersonId).SingleOrDefault();
 
-            PersonResponce personobj= new PersonResponce {PersonName= person1.PersonName,PersonId= person1.PersonId,PersonEmail=person1.PersonEmail, Address=person1.Address, Gender=person1.Gender, BloodGroup=person1.BloodGroup, CountryId=person1.CountryId, DateOfBirth=person1.DateOfBirth, ReceiveNewsLetters=person1.ReceiveNewsLetters };
+            PersonResponce personobj = new PersonResponce { PersonName = person1.PersonName, PersonId = person1.PersonId, PersonEmail = person1.PersonEmail, Address = person1.Address, Gender = person1.Gender, BloodGroup = person1.BloodGroup, CountryId = person1.CountryId, DateOfBirth = person1.DateOfBirth, ReceiveNewsLetters = person1.ReceiveNewsLetters };
 
             return personobj;
 
@@ -160,27 +154,182 @@ namespace Services
 
         }
 
-        
-      public async Task<MemoryStream> GetpersonCSV()
+        public async Task<bool> DeletePerson(Guid? personID)
+        {
+            if (personID == null)
+            {
+                // return false;
+                // throw new ArgumentNullException(nameof(personID));
+
+                ArgumentNullException obj = new ArgumentNullException(nameof(personID));
+
+                throw obj;
+
+            }
+
+            Person? PersonData = await db_tbl.Tbl_person.FirstOrDefaultAsync(temp => temp.PersonId == personID);
+
+            if (PersonData == null)
+            {
+                return false;
+            }
+
+            db_tbl.Tbl_person.Remove(db_tbl.Tbl_person.First(data => data.PersonId == personID));
+
+            await db_tbl.SaveChangesAsync();
+
+            return true;
+        }
+        public async Task<List<PersonResponce>> GetFilteredPersons(string searchBy, string? searchString)
+        {
+
+            List<PersonResponce> ActualData = await GetAllPerson();
+            List<PersonResponce> FilteredData = ActualData;
+            if (string.IsNullOrEmpty(searchBy) || (searchString == null || searchString == ""))
+                return FilteredData;
+
+            switch (searchBy)
+            {
+                case "PersonName":
+                    FilteredData = ActualData.Where(temp => (!string.IsNullOrEmpty(temp.PersonName) ?
+                        temp.PersonName.Contains(searchString, StringComparison.OrdinalIgnoreCase) : true)).ToList();
+                    break;
+                case "Gender":
+                    FilteredData = ActualData.Where(temp =>
+                    (!string.IsNullOrEmpty(temp.Gender) ?
+                    temp.Gender.Contains(searchString, StringComparison.OrdinalIgnoreCase) : true)).ToList();
+                    break;
+                default:
+                    FilteredData = ActualData;
+                    break;
+
+            }
+
+            return FilteredData;
+        }
+        public async Task<List<PersonResponce>> GetSortedPersons(List<PersonResponce> allPersons, string sortBy, SortOrderOptions sortOrder)
+        {
+            if (string.IsNullOrEmpty(sortBy))
+                return allPersons;
+
+            List<PersonResponce> SortedData = (sortBy, sortOrder) switch
+            {
+                (nameof(PersonResponce.PersonName), SortOrderOptions.ASC) => allPersons.OrderBy(temp => temp.PersonName, StringComparer.OrdinalIgnoreCase).ToList(),
+
+                (nameof(PersonResponce.PersonName), SortOrderOptions.DESC) => allPersons.OrderByDescending(temp => temp.PersonName, StringComparer.OrdinalIgnoreCase).ToList(),
+
+
+                _ => allPersons
+
+            };
+
+
+            return SortedData;
+        }
+        public async Task<PersonResponce> UpdatePerson(PersonUpdateRequest? personUpdateRequest)
+        {
+            if (personUpdateRequest == null)
+            {
+                throw new ArgumentNullException(nameof(personUpdateRequest));
+            }
+            if (personUpdateRequest.PersonId == null || personUpdateRequest.PersonId == Guid.Empty)
+            {
+                throw new ArgumentNullException(nameof(personUpdateRequest.PersonId));
+
+            }
+
+
+
+            Person? exitedData = db_tbl.Tbl_person.FirstOrDefault(temp => temp.PersonId == personUpdateRequest.PersonId);
+
+            if (exitedData == null)
+            {
+                throw new InvalidOperationException(nameof(exitedData));
+            }
+
+            if (exitedData.PersonId == null || exitedData.PersonId == Guid.Empty)
+            {
+
+                throw new InvalidOperationException(nameof(exitedData.PersonId));
+
+            }
+            if (!string.IsNullOrEmpty(personUpdateRequest.PersonEmail))
+            {
+                exitedData.PersonEmail = personUpdateRequest.PersonEmail;
+            }
+
+
+            if (!string.IsNullOrEmpty(personUpdateRequest.BloodGroup))
+            {
+                exitedData.BloodGroup = personUpdateRequest.BloodGroup;
+            }
+            if (personUpdateRequest.CountryId != Guid.Empty & personUpdateRequest.CountryId != null)
+            {
+                exitedData.CountryId = personUpdateRequest.CountryId;
+            }
+            if (!string.IsNullOrEmpty(personUpdateRequest.Address))
+            {
+                exitedData.Address = personUpdateRequest.Address;
+            }
+
+            if (!string.IsNullOrEmpty(personUpdateRequest.Gender))
+            {
+                exitedData.Gender = personUpdateRequest.Gender;
+            }
+
+            if (personUpdateRequest.DateOfBirth != null)
+            {
+                exitedData.DateOfBirth = personUpdateRequest.DateOfBirth;
+            }
+
+            if (personUpdateRequest.ReceiveNewsLetters != null)
+            {
+                exitedData.ReceiveNewsLetters = personUpdateRequest.ReceiveNewsLetters;
+            }
+
+            if (personUpdateRequest.PersonName != null)
+            {
+                exitedData.PersonName = personUpdateRequest.PersonName;
+            }
+
+
+            await db_tbl.SaveChangesAsync();
+
+            PersonResponce obj = new PersonResponce();
+
+            obj.Gender = exitedData.Gender;
+            obj.Address = exitedData.Address;
+            obj.DateOfBirth = exitedData.DateOfBirth;
+            obj.PersonEmail = exitedData.PersonEmail;
+            obj.PersonName = exitedData.PersonName;
+            obj.PersonId = exitedData.PersonId;
+            obj.ReceiveNewsLetters = exitedData.ReceiveNewsLetters;
+            obj.BloodGroup = exitedData.BloodGroup;
+            obj.CountryId = exitedData.CountryId;
+
+            return obj;
+        }
+
+
+        public async Task<MemoryStream> GetpersonCSV()
         {
             //throw new NotImplementedException();
 
             MemoryStream stream = new MemoryStream();
-            List<Person> liobj= await db_tbl.Getallperson();
+            List<Person> liobj = await db_tbl.Getallperson();
             List<Person> obj = await db_tbl.Tbl_person.ToListAsync();
 
             StreamWriter streamobj = new StreamWriter(stream);
 
-            CsvWriter csvWriterObj =new CsvWriter(streamobj,CultureInfo.InvariantCulture,leaveOpen:true);
+            CsvWriter csvWriterObj = new CsvWriter(streamobj, CultureInfo.InvariantCulture, leaveOpen: true);
             csvWriterObj.WriteHeader<PersonResponce>();
             csvWriterObj.NextRecord();
-           await csvWriterObj.WriteRecordsAsync(obj);
-            stream.Position = 0;    
+            await csvWriterObj.WriteRecordsAsync(obj);
+            stream.Position = 0;
 
             return stream;
 
         }
-
         public async Task<MemoryStream> GetCSV()
         {
             //throw new NotImplementedException();
@@ -195,7 +344,7 @@ namespace Services
 
 
             CsvWriter csvWriterObj = new CsvWriter(streamobj, csvConfigurationobj);
-            csvWriterObj.WriteField(nameof( PersonResponce.PersonName));
+            csvWriterObj.WriteField(nameof(PersonResponce.PersonName));
 
             csvWriterObj.WriteField(nameof(PersonResponce.PersonEmail));
             csvWriterObj.NextRecord();
@@ -222,7 +371,7 @@ namespace Services
             ExcelPackage.License.SetNonCommercialOrganization("My Noncommercial organization");
             using (ExcelPackage excelPackage = new ExcelPackage())
             {
-               ExcelWorksheet worksheetOBJ= excelPackage.Workbook.Worksheets.Add("PersonDATA");
+                ExcelWorksheet worksheetOBJ = excelPackage.Workbook.Worksheets.Add("PersonDATA");
                 worksheetOBJ.Cells["A1"].Value = "PersonName";
                 worksheetOBJ.Cells["B1"].Value = "Gender";
                 worksheetOBJ.Cells["C1"].Value = nameof(PersonResponce.Country);
@@ -243,15 +392,15 @@ namespace Services
                 }
 
                 foreach (var data in liobj)
-                    {
-                        worksheetOBJ.Cells[row, 1].Value = data.PersonName;
-                        worksheetOBJ.Cells[row, 2].Value = data.Gender;
-                        worksheetOBJ.Cells[row, 3].Value = data.Country;
+                {
+                    worksheetOBJ.Cells[row, 1].Value = data.PersonName;
+                    worksheetOBJ.Cells[row, 2].Value = data.Gender;
+                    worksheetOBJ.Cells[row, 3].Value = data.Country;
 
 
-                    
+
                     row++;
-                    }
+                }
                 worksheetOBJ.Cells[$"A1:B{row}"].AutoFitColumns();
                 using (ExcelRange DAtaCells = worksheetOBJ.Cells["A2:C11"])
 
@@ -269,169 +418,10 @@ namespace Services
                 }
                 await excelPackage.SaveAsAsync(stream);
             }
-            stream.Position=0;
+            stream.Position = 0;
             return stream;
         }
-
-
-        public async Task<bool> DeletePerson(Guid? personID)
-        {
-            if (personID == null)
-            {
-                // return false;
-                // throw new ArgumentNullException(nameof(personID));
-
-                ArgumentNullException obj = new ArgumentNullException(nameof(personID));
-
-                   throw obj;
-
-            }
-
-           Person? PersonData= await db_tbl.Tbl_person.FirstOrDefaultAsync(temp => temp.PersonId == personID);
-
-            if (PersonData == null)
-            {
-                return false;
-            }
-
-            db_tbl.Tbl_person.Remove(db_tbl.Tbl_person.First(data => data.PersonId == personID));
-
-            await db_tbl.SaveChangesAsync();
-
-            return true;
-        }
-
-
-        public async Task<List<PersonResponce>> GetFilteredPersons(string searchBy, string? searchString)
-        {
-
-            List<PersonResponce>  ActualData=await GetAllPerson();
-            List<PersonResponce> FilteredData = ActualData;
-            if ( string.IsNullOrEmpty(searchBy)||(searchString==null || searchString==""))
-                return FilteredData;
-
-            switch (searchBy)
-            {
-                case "PersonName":
-                    FilteredData = ActualData.Where(temp =>(!string.IsNullOrEmpty(temp.PersonName) ?
-                        temp.PersonName.Contains(searchString, StringComparison.OrdinalIgnoreCase) : true)).ToList();
-                    break;
-                case "Gender":
-                    FilteredData = ActualData.Where(temp =>
-                    (!string.IsNullOrEmpty(temp.Gender) ?
-                    temp.Gender.Contains(searchString, StringComparison.OrdinalIgnoreCase) : true)).ToList();
-                    break;
-                default: FilteredData = ActualData; 
-                   break;
-
-            }
-
-            return FilteredData;
-        }
-
-        public async Task<List<PersonResponce>> GetSortedPersons(List<PersonResponce> allPersons, string sortBy, SortOrderOptions sortOrder)
-        {
-            if (string.IsNullOrEmpty(sortBy))
-                return allPersons;
-
-            List<PersonResponce> SortedData = (sortBy, sortOrder) switch
-            {
-                (nameof(PersonResponce.PersonName), SortOrderOptions.ASC) => allPersons.OrderBy(temp => temp.PersonName, StringComparer.OrdinalIgnoreCase).ToList(),
-
-                (nameof(PersonResponce.PersonName), SortOrderOptions.DESC) => allPersons.OrderByDescending(temp => temp.PersonName, StringComparer.OrdinalIgnoreCase).ToList(),
-
-
-                  _ => allPersons
-
-            };
-
-                 
-            return SortedData;
-        }
-
-        public async Task<PersonResponce> UpdatePerson(PersonUpdateRequest? personUpdateRequest)
-        {
-            if (personUpdateRequest ==null)
-            {
-                throw new ArgumentNullException(nameof(personUpdateRequest));
-            }
-            if (personUpdateRequest.PersonId ==null || personUpdateRequest.PersonId==Guid.Empty)
-            {
-                throw new ArgumentNullException(nameof(personUpdateRequest.PersonId));
-             
-            }
-
-           
-
-            Person?  exitedData  = db_tbl.Tbl_person.FirstOrDefault(temp=> temp.PersonId==personUpdateRequest.PersonId);
-
-            if (exitedData == null)
-            {
-                throw new InvalidOperationException(nameof(exitedData));
-            }
-
-            if (exitedData.PersonId == null || exitedData.PersonId == Guid.Empty)
-            {
-
-                throw new InvalidOperationException( nameof(exitedData.PersonId));
-
-            }
-            if (!string.IsNullOrEmpty(personUpdateRequest.PersonEmail))
-            {
-                exitedData.PersonEmail = personUpdateRequest.PersonEmail;
-            }
-
-
-            if (!string.IsNullOrEmpty(personUpdateRequest.BloodGroup))
-            {
-                exitedData.BloodGroup = personUpdateRequest.BloodGroup;
-            }
-            if (personUpdateRequest.CountryId!=Guid.Empty & personUpdateRequest.CountryId !=null )
-            {
-                exitedData.CountryId = personUpdateRequest.CountryId;
-            }
-            if (!string.IsNullOrEmpty(personUpdateRequest.Address))
-            {
-                exitedData.Address = personUpdateRequest.Address;
-            }
-
-            if (!string.IsNullOrEmpty(personUpdateRequest.Gender))
-            {
-                exitedData.Gender = personUpdateRequest.Gender;
-            }
-
-            if (personUpdateRequest.DateOfBirth != null)
-            {
-                exitedData.DateOfBirth = personUpdateRequest.DateOfBirth;
-            }
-           
-            if (personUpdateRequest.ReceiveNewsLetters != null)
-            {
-                exitedData.ReceiveNewsLetters = personUpdateRequest.ReceiveNewsLetters;
-            }
-
-            if (personUpdateRequest.PersonName != null)
-            {
-                exitedData.PersonName = personUpdateRequest.PersonName;
-            }
-
-
-            await db_tbl.SaveChangesAsync();
-
-            PersonResponce obj = new PersonResponce();
-
-            obj.Gender = exitedData.Gender;
-            obj.Address = exitedData.Address;
-            obj.DateOfBirth= exitedData.DateOfBirth;
-            obj.PersonEmail = exitedData.PersonEmail;
-            obj.PersonName = exitedData.PersonName;
-            obj.PersonId= exitedData.PersonId;
-            obj.ReceiveNewsLetters= exitedData.ReceiveNewsLetters;
-            obj.BloodGroup= exitedData.BloodGroup;
-            obj.CountryId= exitedData.CountryId;
-            
-            return obj;
-        }
+       
 
     }
 }
