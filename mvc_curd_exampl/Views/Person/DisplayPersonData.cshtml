@@ -1,0 +1,74 @@
+﻿@model List<PersonResponce>
+
+
+
+<form asp-controller="Person" asp-action="DisplayPersonData" method="get">
+
+    <a asp-controller="Person" asp-action="Add">Create Person</a>
+
+    <a asp-controller="Person" asp-action="personPDF" class="ml">Download as PDF</a>
+
+    <a asp-controller="Person" asp-action="PersonCSV" class="ml">Download as CSV</a>
+
+    <a asp-controller="Person" asp-action="PersonExcel" class="ml">Download as Excel</a>
+
+    <br />
+    <select class="form-input" name="DropdownItems">
+
+        <option>--select--</option>
+
+        @foreach (  var data in   ViewBag.Filternamelist)
+        {
+
+            <option value="@data.Key" >@data.Value</option>
+        
+        }
+    </select>
+    <input type="search" name="serachstring" class="form-input" placeholder="serach by any name " />
+
+    <button class="button button-blue-back" >Search the data</button>
+@*    <input type="search" id="Search" class="form-input" placeholder="Search" name="searchString" value="@ViewBag.CurrentSearchString" />
+ *@
+
+
+    <table class="table w-100 mt">
+     <thead>
+         <td>@nameof(PersonResponce.PersonName)</td>
+        <td>@nameof(PersonResponce.Gender)</td>
+     </thead>
+     <tbody>
+
+            @foreach (PersonResponce personResponce in Model)
+            {
+                
+            
+
+                <tr>
+                    <td style="width:15%">@personResponce.PersonName</td>
+                    <td style="width:20%">@personResponce.PersonEmail</td>
+                    <td style="width:13%">@personResponce.DateOfBirth?.ToString("dd MMM yyyy")</td>
+                    <td style="width:20%">@personResponce.BloodGroup</td>
+                    <td style="width:9%">@personResponce.Gender</td>
+                    <td style="width:10%">@personResponce.Country</td>
+                    <td style="width:15%">@personResponce.Address</td>
+                    <td style="width:20%">@personResponce.ReceiveNewsLetters</td>
+                    <td style="width:20%">
+                        <a asp-controller="Person" asp-action="Edit" asp-route-personID="@personResponce.PersonId">Edit</a>
+                            @* /Persons/Edit/1 *@
+
+                        <a asp-controller="Person" asp-action="Delete" asp-route-personID="@personResponce.PersonId">Delete</a>
+                            @* /Persons/Delete/1 *@
+                    </td>
+
+                </tr>
+
+            
+            }
+
+     </tbody>
+
+
+
+ </table>
+
+</form>

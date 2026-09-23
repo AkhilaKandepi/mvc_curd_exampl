@@ -26,19 +26,26 @@ namespace mvc_curd_exampl.Controllers
         }
 
         [Route("/")]
-        public async Task<IActionResult> DisplayPersonData()
+        public async Task<IActionResult> DisplayPersonData(string DropdownItems,string serachstring)
         {
 
-            string searchBy = nameof(PersonResponce.PersonName);
-            string serachstring = "";
+          //  string searchBy =  //nameof(PersonResponce.PersonName);
+         //  string serachstring = "";
 
-            List<PersonResponce> Filterdata = await iperson.GetFilteredPersons(searchBy, serachstring);
+            List<PersonResponce> Filterdata = await iperson.GetFilteredPersons(DropdownItems, serachstring);
 
 
             string sortedby=nameof(PersonResponce.PersonName);
             SortOrderOptions sortorder =  SortOrderOptions.ASC;
 
             List<PersonResponce> Sorted_data = await iperson.GetSortedPersons(Filterdata, sortedby, sortorder);
+
+
+            Dictionary<string, string> Dataallcoulumns = new Dictionary<string, string>();
+            Dataallcoulumns.Add(nameof(PersonResponce.PersonName), "PersonName");
+            Dataallcoulumns.Add(nameof(PersonResponce.Gender), "Gender");
+
+            ViewBag.Filternamelist = Dataallcoulumns;
 
 
 

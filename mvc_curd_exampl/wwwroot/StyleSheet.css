@@ -405,7 +405,7 @@ a.link-hover:hover
     font-size: 105%;
     border-radius: 8px;
     border: 1px solid #d0d0d0;
-    width: 100%;
+    width: 50%;
     transition: box-shadow 0.2s;
 }
 
