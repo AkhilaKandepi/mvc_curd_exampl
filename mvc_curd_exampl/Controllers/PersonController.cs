@@ -9,6 +9,7 @@ using ServiceContract;
 using ServiceContract.DTO;
 using ServiceContract.Enum;
 using ServiceContract.Interface;
+using System.Globalization;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 namespace mvc_curd_exampl.Controllers
 {
@@ -26,7 +27,7 @@ namespace mvc_curd_exampl.Controllers
         }
 
         [Route("/")]
-        public async Task<IActionResult> DisplayPersonData(string DropdownItems,string serachstring)
+        public async Task<IActionResult> DisplayPersonData(string? DropdownItems,string? serachstring, string? sortedby, SortOrderOptions? sortorder)
         {
 
           //  string searchBy =  //nameof(PersonResponce.PersonName);
@@ -35,18 +36,24 @@ namespace mvc_curd_exampl.Controllers
             List<PersonResponce> Filterdata = await iperson.GetFilteredPersons(DropdownItems, serachstring);
 
 
-            string sortedby=nameof(PersonResponce.PersonName);
-            SortOrderOptions sortorder =  SortOrderOptions.ASC;
+          //  string sortedby=nameof(PersonResponce.PersonName);
+           // SortOrderOptions sortorder =  SortOrderOptions.ASC;
 
             List<PersonResponce> Sorted_data = await iperson.GetSortedPersons(Filterdata, sortedby, sortorder);
-
 
             Dictionary<string, string> Dataallcoulumns = new Dictionary<string, string>();
             Dataallcoulumns.Add(nameof(PersonResponce.PersonName), "PersonName");
             Dataallcoulumns.Add(nameof(PersonResponce.Gender), "Gender");
+            Dataallcoulumns.Add(nameof(PersonResponce.BloodGroup), "BloodGroup");
 
             ViewBag.Filternamelist = Dataallcoulumns;
 
+            ViewBag.CurrentSearchBy = DropdownItems;
+            ViewBag.CurrentSearchString = serachstring;
+
+
+            ViewBag.CurrentSortBy = sortedby;
+            ViewBag.CurrentSortOrder = sortorder.ToString();
 
 
             return View(Sorted_data);

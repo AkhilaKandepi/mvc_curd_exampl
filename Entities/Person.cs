@@ -18,17 +18,18 @@ namespace Entities
         public DateTime? DateOfBirth { get; set; }
         public string? Gender { get; set; }
 
-        [ForeignKey("Countyid")]
+        //[ForeignKey("Countyid")]
         public Guid? CountryId { get; set; }
 
-        public string? Country { get; set; }
+       // public string? Country { get; set; }
         public string? Address { get; set; }
         public bool ReceiveNewsLetters { get; set; }
 
         [Column("BloodGroupType",TypeName="varchar(10)")]
         public string BloodGroup {  get; set; }
 
-
+        [ForeignKey("CountryID")]
+        public virtual Country? Country { get; set; }
 
     }
 }

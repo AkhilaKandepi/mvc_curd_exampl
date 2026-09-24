@@ -89,7 +89,7 @@ namespace Services
 
             personResponseObj.CountryId = obj.CountryId;
 
-            personResponseObj.Country = obj.Country;
+            personResponseObj.Country = obj.Country.CountryName;
 
             personResponseObj.Address = obj.Address;
             personResponseObj.BloodGroup = obj.BloodGroup;
@@ -101,9 +101,9 @@ namespace Services
         }
         public async Task<List<PersonResponce>> GetAllPerson()
         {
-            // List<Person> listobj = await db_tbl.Getallperson();
+          //List<Person> listobj = await db_tbl.Getallperson();
 
-            List<Person> listobj = await db_tbl.Tbl_person.ToListAsync();
+           List<Person> listobj = await db_tbl.Tbl_person.Include("Country").ToListAsync();
 
             List<PersonResponce> personResponcesobj = new List<PersonResponce>();
             foreach (Person data in listobj)
@@ -115,7 +115,8 @@ namespace Services
                 obj.DateOfBirth = data.DateOfBirth;
                 obj.Gender = data.Gender;
                 obj.CountryId = data.CountryId;
-                obj.Country = data.Country;
+                obj.Country = data.Country.CountryName;
+                obj.BloodGroup=data.BloodGroup;
                 obj.Address = data.Address;
                 obj.ReceiveNewsLetters = data.ReceiveNewsLetters;
                 personResponcesobj.Add(obj);
@@ -180,7 +181,7 @@ namespace Services
 
             return true;
         }
-        public async Task<List<PersonResponce>> GetFilteredPersons(string searchBy, string? searchString)
+        public async Task<List<PersonResponce>> GetFilteredPersons(string ? searchBy, string? searchString)
         {
 
             List<PersonResponce> ActualData = await GetAllPerson();
@@ -207,7 +208,7 @@ namespace Services
 
             return FilteredData;
         }
-        public async Task<List<PersonResponce>> GetSortedPersons(List<PersonResponce> allPersons, string sortBy, SortOrderOptions sortOrder)
+        public async Task<List<PersonResponce>> GetSortedPersons(List<PersonResponce> allPersons, string? sortBy, SortOrderOptions? sortOrder)
         {
             if (string.IsNullOrEmpty(sortBy))
                 return allPersons;

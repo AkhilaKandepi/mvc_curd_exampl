@@ -35,10 +35,10 @@ namespace ServiceContract.Interface
 
 
 
-        Task<List<PersonResponce>> GetSortedPersons(List<PersonResponce> allPersons, string sortBy, SortOrderOptions sortOrder);
+        Task<List<PersonResponce>> GetSortedPersons(List<PersonResponce> allPersons, string ? sortBy, SortOrderOptions ? sortOrder);
 
 
-        Task<List<PersonResponce>> GetFilteredPersons(string searchBy, string? searchString);
+        Task<List<PersonResponce>> GetFilteredPersons(string ?searchBy, string? searchString);
 
         Task<bool> DeletePerson(Guid? personID);
         Task<MemoryStream> GetpersonCSV();
