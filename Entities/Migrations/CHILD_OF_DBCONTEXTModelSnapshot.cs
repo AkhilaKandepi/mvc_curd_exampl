@@ -34,7 +34,7 @@ namespace Entities.Migrations
 
                     b.HasKey("Countyid");
 
-                    b.ToTable("Tbl_country");
+                    b.ToTable("Tbl_country", (string)null);
                 });
 
             modelBuilder.Entity("Entities.Person", b =>
@@ -78,7 +78,7 @@ namespace Entities.Migrations
 
                     b.HasIndex("CountryID");
 
-                    b.ToTable("Tbl_person", t =>
+                    b.ToTable("Tbl_person", null, t =>
                         {
                             t.HasCheckConstraint("con_personname", "LEN([PersonName]) BETWEEN 2 AND 10");
                         });

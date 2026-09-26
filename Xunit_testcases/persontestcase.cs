@@ -492,12 +492,6 @@ namespace Xunit_testcases
 
             List<PersonResponce> TotalActualData = new List<PersonResponce> { Record1, Record2 };
 
-
-
-
-
-
-
             //Arrange
             PersonUpdateRequest? personAddRequest = new PersonUpdateRequest { PersonId = Record1.PersonId,PersonName= "Smith J"};
 

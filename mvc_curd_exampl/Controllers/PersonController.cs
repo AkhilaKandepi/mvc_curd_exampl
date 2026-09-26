@@ -69,7 +69,21 @@ namespace mvc_curd_exampl.Controllers
                 PersonResponce  PersData  = await iperson.GetPersonByPersonId(personID);
 
               PersonUpdateRequest PersonUpdate=  PersData.ToPersonUpdateRequest();
-               return  View(PersonUpdate);
+
+
+            List<CountryResponce> countryobj = icountry.Getallcountries();
+            List<SelectListItem> selectlist = new List<SelectListItem>();
+            foreach (CountryResponce country in countryobj)
+            {
+                SelectListItem obj = new SelectListItem();
+                obj.Text = country.CountryName;
+                obj.Value = country.Countyid.ToString();
+
+                selectlist.Add(obj);
+            }
+            ViewBag.AllCountrydata = selectlist;
+          return  View(PersonUpdate);
+
 
         }
 
