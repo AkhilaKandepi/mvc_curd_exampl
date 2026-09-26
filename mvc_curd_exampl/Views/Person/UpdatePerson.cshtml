@@ -1,0 +1,12 @@
+﻿@model PersonUpdateRequest
+
+<h1> edit</h1>
+
+<a asp-controller="Person" asp-action="DisplayPersonData" class="link-hover"> Back to List </a>
+
+<form asp-controller="Person" asp-action="UpdatePerson" method="post">
+
+    <input asp-for="PersonName" />
+
+
+</form>

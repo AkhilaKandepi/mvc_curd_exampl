@@ -23,6 +23,13 @@ namespace ServiceContract.DTO
         public bool ReceiveNewsLetters { get; set; }
 
 
+
+        public PersonUpdateRequest ToPersonUpdateRequest()
+        {
+            return new PersonUpdateRequest() { PersonId = PersonId, PersonName = PersonName, PersonEmail = PersonEmail, DateOfBirth = DateOfBirth, Gender = Gender, Address = Address, CountryId = CountryId, ReceiveNewsLetters = ReceiveNewsLetters,Country=Country,BloodGroup=BloodGroup };
+        }
+
+
         public override bool Equals(object? obj)
         {
 

@@ -31,5 +31,6 @@ namespace Entities
         [ForeignKey("CountryID")]
         public virtual Country? Country { get; set; }
 
+
     }
 }

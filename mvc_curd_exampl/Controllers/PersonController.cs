@@ -62,6 +62,30 @@ namespace mvc_curd_exampl.Controllers
 
 
 
+        [HttpGet]
+        public async Task<IActionResult> UpdatePerson(Guid personID)
+        {
+
+                PersonResponce  PersData  = await iperson.GetPersonByPersonId(personID);
+
+              PersonUpdateRequest PersonUpdate=  PersData.ToPersonUpdateRequest();
+               return  View(PersonUpdate);
+
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdatePerson(PersonUpdateRequest  UpdateData)
+        {
+
+            PersonResponce PersData = await iperson.UpdatePerson(UpdateData);
+
+
+            return RedirectToAction("DisplayPersonData"); 
+
+        }
+
+
+
 
         [HttpGet]
         public IActionResult Add()

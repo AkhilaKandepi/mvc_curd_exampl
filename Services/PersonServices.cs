@@ -67,8 +67,8 @@ namespace Services
 
             obj.BloodGroup = personAddRequest.BloodGroup;
 
-            db_tbl.Tbl_person.Add(obj);
-            // db_tbl.sp_InsertPerson(obj);
+           // db_tbl.Tbl_person.Add(obj);
+          db_tbl.sp_InsertPerson(obj);
 
 
 
@@ -89,7 +89,7 @@ namespace Services
 
             personResponseObj.CountryId = obj.CountryId;
 
-            personResponseObj.Country = obj.Country.CountryName;
+            personResponseObj.Country = obj.Country?.CountryName;
 
             personResponseObj.Address = obj.Address;
             personResponseObj.BloodGroup = obj.BloodGroup;
@@ -137,7 +137,7 @@ namespace Services
                 return null;
             }
             // Find the person from database
-            Person? person1 = await db_tbl.Tbl_person.Where(p => p.PersonId == PersonId).FirstOrDefaultAsync();
+            Person? person1 = await db_tbl.Tbl_person.Include("Country").Where(p => p.PersonId == PersonId).FirstOrDefaultAsync();
 
             // Check whether person exists
             if (person1 == null)
@@ -147,7 +147,7 @@ namespace Services
 
             // Person obj =db_tbl.Tbl_person.Where(s=>s.PersonId==PersonId).SingleOrDefault();
 
-            PersonResponce personobj = new PersonResponce { PersonName = person1.PersonName, PersonId = person1.PersonId, PersonEmail = person1.PersonEmail, Address = person1.Address, Gender = person1.Gender, BloodGroup = person1.BloodGroup, CountryId = person1.CountryId, DateOfBirth = person1.DateOfBirth, ReceiveNewsLetters = person1.ReceiveNewsLetters };
+           PersonResponce personobj = new PersonResponce { PersonName = person1.PersonName, PersonId = person1.PersonId, PersonEmail = person1.PersonEmail, Address = person1.Address, Gender = person1.Gender, BloodGroup = person1.BloodGroup, CountryId = person1.CountryId, DateOfBirth = person1.DateOfBirth, ReceiveNewsLetters = person1.ReceiveNewsLetters,Country=person1.Country?.CountryName };
 
             return personobj;
 
