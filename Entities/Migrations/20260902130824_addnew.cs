@@ -38,7 +38,7 @@ namespace Entities.Migrations
                   CountryID, 
                  
                   Address, 
-                 ReceiveNewsLetters
+                 ReceiveNewsLetters,
                   bloodgroupname
               ) 
             VALUES

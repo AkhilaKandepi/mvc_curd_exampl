@@ -23,11 +23,11 @@ namespace Entities.Migrations
                 name: "Country",
                 table: "Tbl_person");
 
-            migrationBuilder.AddColumn<Guid>(
-                name: "CountryID",
-                table: "Tbl_person",
-                type: "uniqueidentifier",
-                nullable: true);
+            //migrationBuilder.AddColumn<Guid>(
+            //    name: "CountryID",
+            //    table: "Tbl_person",
+            //    type: "uniqueidentifier",
+            //    nullable: true);
 
             migrationBuilder.CreateIndex(
                 name: "IX_Tbl_person_CountryID",

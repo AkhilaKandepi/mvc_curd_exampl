@@ -115,7 +115,7 @@ namespace Services
                 obj.DateOfBirth = data.DateOfBirth;
                 obj.Gender = data.Gender;
                 obj.CountryId = data.CountryId;
-                obj.Country = data.Country.CountryName;
+                obj.Country = data.Country?.CountryName;
                 obj.BloodGroup=data.BloodGroup;
                 obj.Address = data.Address;
                 obj.ReceiveNewsLetters = data.ReceiveNewsLetters;
