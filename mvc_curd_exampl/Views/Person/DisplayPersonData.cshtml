@@ -39,6 +39,39 @@
                 { "ColumnName", nameof(PersonResponce.PersonName) },
                 { "DisplayName", "Person Name" },
                 })
+
+                @await Html.PartialAsync("_GridColumnHeader", new ViewDataDictionary(ViewData) {
+                { "ColumnName", nameof(PersonResponce.PersonEmail) },
+                { "DisplayName", "Person Email" },
+                })
+
+                @await Html.PartialAsync("_GridColumnHeader", new ViewDataDictionary(ViewData) {
+                { "ColumnName", nameof(PersonResponce.DateOfBirth) },
+                { "DisplayName", "DateOfBirth" },
+                })
+
+                @await Html.PartialAsync("_GridColumnHeader", new ViewDataDictionary(ViewData) {
+                { "ColumnName", nameof(PersonResponce.BloodGroup) },
+                { "DisplayName", "Blood Group" },
+                })
+
+                @await Html.PartialAsync("_GridColumnHeader", new ViewDataDictionary(ViewData) {
+                { "ColumnName", nameof(PersonResponce.Gender) },
+                { "DisplayName", "Gender" },
+                })
+
+                @await Html.PartialAsync("_GridColumnHeader", new ViewDataDictionary(ViewData) {
+                { "ColumnName", nameof(PersonResponce.Country) },
+                { "DisplayName", "Country" },
+                })
+                @await Html.PartialAsync("_GridColumnHeader", new ViewDataDictionary(ViewData) {
+                { "ColumnName", nameof(PersonResponce.Address) },
+                { "DisplayName", "Address" },
+                })
+                @await Html.PartialAsync("_GridColumnHeader", new ViewDataDictionary(ViewData) {
+                { "ColumnName", nameof(PersonResponce.ReceiveNewsLetters) },
+                { "DisplayName", "ReceiveNews Letters" },
+                })
     </tr>
 
      </thead>

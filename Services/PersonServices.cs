@@ -200,6 +200,12 @@ namespace Services
                     (!string.IsNullOrEmpty(temp.Gender) ?
                     temp.Gender.Contains(searchString, StringComparison.OrdinalIgnoreCase) : true)).ToList();
                     break;
+
+                case "PersonEmail":
+                    FilteredData = ActualData.Where(temp =>
+                    (!string.IsNullOrEmpty(temp.PersonEmail) ?
+                    temp.PersonEmail.Contains(searchString, StringComparison.OrdinalIgnoreCase) : true)).ToList();
+                    break;
                 default:
                     FilteredData = ActualData;
                     break;
@@ -219,6 +225,8 @@ namespace Services
 
                 (nameof(PersonResponce.PersonName), SortOrderOptions.DESC) => allPersons.OrderByDescending(temp => temp.PersonName, StringComparer.OrdinalIgnoreCase).ToList(),
 
+                (nameof(PersonResponce.PersonEmail), SortOrderOptions.ASC) => allPersons.OrderBy(temp => temp.PersonEmail, StringComparer.OrdinalIgnoreCase).ToList(),
+                (nameof(PersonResponce.PersonEmail), SortOrderOptions.DESC) => allPersons.OrderByDescending(temp => temp.PersonEmail, StringComparer.OrdinalIgnoreCase).ToList(),
 
                 _ => allPersons
 

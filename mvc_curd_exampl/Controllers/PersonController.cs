@@ -44,7 +44,11 @@ namespace mvc_curd_exampl.Controllers
             Dictionary<string, string> Dataallcoulumns = new Dictionary<string, string>();
             Dataallcoulumns.Add(nameof(PersonResponce.PersonName), "PersonName");
             Dataallcoulumns.Add(nameof(PersonResponce.Gender), "Gender");
+            Dataallcoulumns.Add(nameof(PersonResponce.Country), "Country");
+            Dataallcoulumns.Add(nameof(PersonResponce.PersonEmail), "PersonEmail");
+            Dataallcoulumns.Add(nameof(PersonResponce.DateOfBirth), "DateOfBirth");
             Dataallcoulumns.Add(nameof(PersonResponce.BloodGroup), "BloodGroup");
+
 
             ViewBag.Filternamelist = Dataallcoulumns;
 
