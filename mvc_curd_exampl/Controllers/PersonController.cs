@@ -97,6 +97,56 @@ namespace mvc_curd_exampl.Controllers
             return RedirectToAction("DisplayPersonData"); 
 
         }
+       
+
+        [HttpGet]
+        public async Task<IActionResult> Delete(Guid? personID)
+        {
+            PersonResponce? personResponse =
+                await iperson.GetPersonByPersonId(personID);
+
+            if (personResponse == null)
+                return RedirectToAction("DisplayPersonData");
+
+            PersonUpdateRequest personUpdateRequest = new PersonUpdateRequest
+            {
+                PersonId = personResponse.PersonId,
+                PersonName = personResponse.PersonName,
+                PersonEmail = personResponse.PersonEmail,
+                Gender=personResponse.Gender,
+                BloodGroup=personResponse.BloodGroup,
+                DateOfBirth=personResponse.DateOfBirth,
+                Address=personResponse.Address,
+                CountryId=personResponse.CountryId,
+                ReceiveNewsLetters=personResponse.ReceiveNewsLetters,
+                Country=personResponse.Country,
+            };
+
+            return View(personUpdateRequest);
+        }
+
+
+        [HttpPost]
+
+        public async Task<IActionResult> Delete(PersonUpdateRequest personUpdateResult)
+
+        {
+
+            PersonResponce? personResponse = await iperson.GetPersonByPersonId(personUpdateResult.PersonId);
+
+            if (personResponse == null)
+
+                return RedirectToAction("DisplayPersonData");
+
+            await iperson.DeletePerson(personUpdateResult.PersonId);
+
+            return RedirectToAction("DisplayPersonData");
+
+        }
+ 
+
+
+
 
 
 
