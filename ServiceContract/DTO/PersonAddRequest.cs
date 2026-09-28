@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,7 +9,12 @@ namespace ServiceContract.DTO
 {
     public class PersonAddRequest
     {
+
+        [Required]
         public string? PersonName { get; set; }
+
+        [Required]
+        [EmailAddress]
         public string? PersonEmail { get; set; }
 
         public DateTime? DateOfBirth { get; set; }
@@ -16,7 +22,7 @@ namespace ServiceContract.DTO
         public Guid? CountryId { get; set; }
         //public string? Country { get; set; }
         public string? Address { get; set; }
-        public string BloodGroup { get; set; }
+        public string? BloodGroup { get; set; }
         public bool ReceiveNewsLetters { get; set; }
 
     }

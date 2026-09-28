@@ -194,13 +194,39 @@ namespace mvc_curd_exampl.Controllers
         [HttpPost]
         public async Task<IActionResult> Add(PersonAddRequest personAddRequest)
         {
+
+            if (!ModelState.IsValid)
+            {
+                List<CountryResponce> ALLcountriesObj = icountry.Getallcountries();
+
+                List<SelectListItem> selectListItems = new List<SelectListItem>();
+
+
+                foreach (var SingleObj in ALLcountriesObj)
+                {
+                    SelectListItem Obj1 = new SelectListItem();
+
+                    Obj1.Text = SingleObj.CountryName;
+                    Obj1.Value = Convert.ToString(SingleObj.Countyid);
+
+                    selectListItems.Add(Obj1);
+                }
+                ViewBag.ALLCountryData_viewbag = selectListItems;
+                return View();
+            }
+
+         
+
+
             PersonResponce data = await iperson.Addperson(personAddRequest);
 
 
             PersonResponce personResponce = new PersonResponce();
-            personResponce.Rajani(10);
+            return View("display", data);
 
-            return View("display",data);
+           
+
+
 
         }
 
