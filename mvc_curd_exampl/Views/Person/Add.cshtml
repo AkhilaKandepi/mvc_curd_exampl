@@ -19,7 +19,7 @@
                 </div>
                 <div class="flex-1">
                     <input asp-for="PersonName" class="form-input" />
-                    <span asp-validation-for="PersonName" class="text-red" ></span>
+                    <span asp-validation-for="PersonName" class="text-red"></span>
                 </div>
           
          </div>
@@ -35,7 +35,7 @@
                    <div class="flex-1">
                          <input asp-for="PersonEmail" class="form-input" />
 
-                    <div asp-validation-for="PersonEmail" class="text-red"></div>
+                    <span asp-validation-for="PersonEmail" class="text-red"></span>
                       </div>
 
          </div>
@@ -48,7 +48,7 @@
                </div>
                <div class="flex-1">
                  <input  asp-for="DateOfBirth" class="form-input"/>
-
+                    <span asp-validation-for="DateOfBirth" class="text-red"></span>
               </div>
          </div>
 
@@ -62,7 +62,7 @@
 
                 <div class="flex-1">
                     <input asp-for="Gender" class="form-input" />
-
+                    <span asp-validation-for="Gender" class="text-red"></span>
 
                 </div>
 
@@ -105,7 +105,7 @@
                 <div class="flex-1">
                     <input asp-for="ReceiveNewsLetters" value="true" />
 
-                    <span asp-validation-for="ReceiveNewsLetters" class="text-red"></span>
+                  
                 </div>
             </div>
 
@@ -116,6 +116,7 @@
               </div>
               <div  class="flex-1">
                     <input asp-for=BloodGroup class="form-input" />
+                    <span asp-validation-for="BloodGroup" class="text-red"></span>
               </div>
 
             </div>
@@ -171,6 +172,6 @@
     </form>
 
     </div>
- 
+    
 </body>
 </html>
