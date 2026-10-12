@@ -199,19 +199,27 @@ namespace mvc_curd_exampl.Controllers
             {
                 List<CountryResponce> ALLcountriesObj = icountry.Getallcountries();
 
-                List<SelectListItem> selectListItems = new List<SelectListItem>();
+                #region // long code
+                //List<SelectListItem> selectListItems = new List<SelectListItem>();
 
 
-                foreach (var SingleObj in ALLcountriesObj)
-                {
-                    SelectListItem Obj1 = new SelectListItem();
+                //foreach (var SingleObj in ALLcountriesObj)
+                //{
+                //    SelectListItem Obj1 = new SelectListItem();
 
-                    Obj1.Text = SingleObj.CountryName;
-                    Obj1.Value = Convert.ToString(SingleObj.Countyid);
+                //    Obj1.Text = SingleObj.CountryName;
+                //    Obj1.Value = Convert.ToString(SingleObj.Countyid);
 
-                    selectListItems.Add(Obj1);
-                }
-                ViewBag.ALLCountryData_viewbag = selectListItems;
+                //    selectListItems.Add(Obj1);
+                //}
+
+                //ViewBag.ALLCountryData_viewbag = selectListItems;
+                #endregion
+
+                ViewBag.ALLCountryData_viewbag = ALLcountriesObj.Select(temp =>
+new SelectListItem() { Text = temp.CountryName, Value = temp.Countyid.ToString() });
+
+                //ViewBag.Errors = ModelState.Values.SelectMany(v => v.Errors).Select(e => e.ErrorMessage).ToList();
                 return View();
 
             }

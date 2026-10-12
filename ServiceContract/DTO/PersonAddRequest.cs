@@ -25,6 +25,8 @@ namespace ServiceContract.DTO
         [RegularExpression("Male|Female|Other",
         ErrorMessage = "Gender must be Male, Female, or Other")]
         public string? Gender { get; set; }
+
+        [Required]
         public Guid? CountryId { get; set; }
         //public string? Country { get; set; }
 
