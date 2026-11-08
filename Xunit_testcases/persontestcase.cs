@@ -17,17 +17,22 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using Xunit.Abstractions;
+using AutoFixture;
 namespace Xunit_testcases
 {
     public class persontestcase
     {
         private readonly IPerson _personservice;
         private readonly ICountry _countryservice;
-
+        private readonly IFixture _fixture;
         private readonly ITestOutputHelper _testOutputHelper;
       
         public persontestcase(ITestOutputHelper testOutputHelper)
         {
+
+            _fixture= new Fixture();
+
+            this._testOutputHelper = testOutputHelper;
             List<Person> personsInitialData = new List<Person>() { };
             List<Country> countriesInitialData = new List<Country>() { };
 
@@ -47,8 +52,11 @@ namespace Xunit_testcases
 
 
 
-            //this._personservice = new PersonServices(new CHILD_OF_DBCONTEXT(new DbContextOptionsBuilder<CHILD_OF_DBCONTEXT>().Options));
-           this._testOutputHelper=testOutputHelper;
+          // Short way 
+          //this._personservice = new PersonServices(new CHILD_OF_DBCONTEXT(new DbContextOptionsBuilder<CHILD_OF_DBCONTEXT>().Options));
+         
+            
+            
             // Create obj for dbcontext 
             // akhilav write
             //DbContextOptionsBuilder<CHILD_OF_DBCONTEXT> obj = new DbContextOptionsBuilder<CHILD_OF_DBCONTEXT>().op;
@@ -87,11 +95,19 @@ namespace Xunit_testcases
         public async Task AddPerson_ProperPersonDetails()
         {
             //Arrange
-            PersonAddRequest? personAddRequest = new PersonAddRequest() { PersonName = "SRINU",
-                PersonEmail = "person@example.com", Address = "sample address",
-                //Country = "us",
-                Gender = "Male", 
-                DateOfBirth = DateTime.Parse("2002-01-01"), ReceiveNewsLetters = true };
+            //PersonAddRequest? personAddRequest = new PersonAddRequest() { PersonName = "SRINU",
+            //    PersonEmail = "person@example.com", Address = "sample address",
+            //    //Country = "us",
+            //    Gender = "Male", 
+            //    DateOfBirth = DateTime.Parse("2002-01-01"), ReceiveNewsLetters = true };
+
+
+            PersonAddRequest? personAddRequest1 =_fixture.Create<PersonAddRequest>();
+
+            // or 
+            PersonAddRequest? personAddRequest = _fixture.Build<PersonAddRequest>().With(temp => temp.PersonEmail, "Srinu@gmail.com").Create();
+
+
 
             //Act
             PersonResponce? person_response_from_add =  await _personservice.Addperson(personAddRequest);
