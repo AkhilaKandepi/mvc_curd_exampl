@@ -18,6 +18,7 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 using Xunit.Abstractions;
 using AutoFixture;
+using FluentAssertions;
 namespace Xunit_testcases
 {
     public class persontestcase
@@ -69,12 +70,20 @@ namespace Xunit_testcases
         [Fact]
         public async Task Addperson_null()
         {
-            PersonAddRequest? personAddRequest = null;
-            await Assert.ThrowsAsync<ArgumentNullException>(async() =>
-               {
-                   await _personservice.Addperson(personAddRequest);
+         PersonAddRequest? personAddRequest = null;
+        //    await Assert.ThrowsAsync<ArgumentNullException>(async() =>
+        //       {
+        //           await _personservice.Addperson(personAddRequest);
 
-               });
+        //       });
+
+
+            Func<Task> Action = async () =>
+            {
+                await _personservice.Addperson(personAddRequest);
+            };
+
+           await Action.Should().ThrowAsync<ArgumentNullException>();
 
         }
 
@@ -82,13 +91,24 @@ namespace Xunit_testcases
         public async Task AddPerson_PersonNameIsNull()
         {
             //Arrange
-            PersonAddRequest? personAddRequest = new PersonAddRequest() { PersonName = null };
+            // PersonAddRequest? personAddRequest = new PersonAddRequest() { PersonName = null };
+
+            PersonAddRequest? personAddRequest = _fixture.Build< PersonAddRequest >().With(temp=> temp.PersonName,null as string).Create();
 
             //Act
-           await Assert.ThrowsAsync<ArgumentException>( async() =>
+            //await Assert.ThrowsAsync<ArgumentException>( async() =>
+            // {
+            //    await _personservice.Addperson(personAddRequest);
+            // });
+
+            Func<Task> Anymethod = async () =>
             {
-               await _personservice.Addperson(personAddRequest);
-            });
+                await _personservice.Addperson(personAddRequest);
+            };
+
+            await Anymethod.Should().ThrowAsync<ArgumentException>();
+
+
         }
 
         [Fact]
@@ -115,9 +135,14 @@ namespace Xunit_testcases
             List<PersonResponce> persons_list = await _personservice.GetAllPerson();
 
             //Assert
-            Assert.True(person_response_from_add.PersonId != Guid.Empty);
+            //Assert.True(person_response_from_add.PersonId != Guid.Empty);
 
-            Assert.Contains(person_response_from_add, persons_list);
+            person_response_from_add.PersonId.Should().NotBe(Guid.Empty);
+
+           //Assert.Contains(person_response_from_add, persons_list);
+
+            persons_list.Should().Contain(person_response_from_add);
+
         }
 
 
@@ -129,65 +154,75 @@ namespace Xunit_testcases
 
             // Arrange
 
-            PersonAddRequest person_request_1 = new PersonAddRequest()
 
-            {
+            PersonAddRequest? person_request_1 = _fixture.Build<PersonAddRequest>().With(temp => temp.PersonEmail, "Srinu1@gmail.com").Create();
 
-                PersonName = "Smith",
+            //PersonAddRequest person_request_1 = new PersonAddRequest()
 
-                PersonEmail = "smith@example.com",
+            //{
 
-                Gender = "Male",
+            //    PersonName = "Smith",
 
-                Address = "Address of Smith",
+            //    PersonEmail = "smith@example.com",
 
-                //Country = "USA",
+            //    Gender = "Male",
 
-                DateOfBirth = DateTime.Parse("2002-05-06"),
+            //    Address = "Address of Smith",
 
-                ReceiveNewsLetters = true
+            //    //Country = "USA",
 
-            };
+            //    DateOfBirth = DateTime.Parse("2002-05-06"),
 
-            PersonAddRequest person_request_2 = new PersonAddRequest()
+            //    ReceiveNewsLetters = true
 
-            {
+            //};
 
-                PersonName = "Mary",
 
-                PersonEmail = "mary@example.com",
 
-                Gender = "Female",
+            PersonAddRequest? person_request_2 = _fixture.Build<PersonAddRequest>().With(temp => temp.PersonEmail, "Srinu2@gmail.com").Create();
+            //PersonAddRequest person_request_2 = new PersonAddRequest()
 
-                Address = "Address of Mary",
+            //{
 
-                //Country = "USA",
+            //    PersonName = "Mary",
 
-                DateOfBirth = DateTime.Parse("2000-02-02"),
+            //    PersonEmail = "mary@example.com",
 
-                ReceiveNewsLetters = false
+            //    Gender = "Female",
 
-            };
+            //    Address = "Address of Mary",
 
-            PersonAddRequest person_request_3 = new PersonAddRequest()
+            //    //Country = "USA",
 
-            {
+            //    DateOfBirth = DateTime.Parse("2000-02-02"),
 
-                PersonName = "Rahman",
+            //    ReceiveNewsLetters = false
 
-                PersonEmail = "rahman@example.com",
+            //};
 
-                Gender = "Male",
+            PersonAddRequest? person_request_3 = _fixture.Build<PersonAddRequest>().With(temp => temp.PersonEmail, "Srinu3@gmail.com").Create();
 
-                Address = "Address of Rahman",
 
-                //Country = "India",
 
-                DateOfBirth = DateTime.Parse("1999-03-03"),
+            //PersonAddRequest person_request_3 = new PersonAddRequest()
 
-                ReceiveNewsLetters = true
+            //{
 
-            };
+            //    PersonName = "Rahman",
+
+            //    PersonEmail = "rahman@example.com",
+
+            //    Gender = "Male",
+
+            //    Address = "Address of Rahman",
+
+            //    //Country = "India",
+
+            //    DateOfBirth = DateTime.Parse("1999-03-03"),
+
+            //    ReceiveNewsLetters = true
+
+            //};
 
             // Store all person requests in a list
 
@@ -219,15 +254,18 @@ namespace Xunit_testcases
 
             // Check whether every added person exists in the returned list
 
-            foreach (PersonResponce person_response_from_add
+            //foreach (PersonResponce person_response_from_add
 
-                     in person_response_list_from_add)
+            //         in person_response_list_from_add)
 
-            {
+            //{
 
-                Assert.Contains(person_response_from_add, persons_list_from_get);
+            //    Assert.Contains(person_response_from_add, persons_list_from_get);
 
-            }
+            //}
+
+
+            persons_list_from_get.Should().BeEquivalentTo(person_response_list_from_add);
 
         }
 
